@@ -39,6 +39,9 @@ model User {
   // Fixed 10 slots, always stored as a 10-element array.
   gd String[] @default([])
 
+  // Fixed 10 slots, always stored as a 10-element array.
+  workPortfolio String[] @default([])
+
   contactEmail       String
   contactEmailPublic Boolean @default(false)
   fbId               String?

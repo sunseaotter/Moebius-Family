@@ -21,6 +21,7 @@ export default async function MemberProfilePage({
       tttStartMonth: true,
       lifePurpose: true,
       gd: true,
+      workPortfolio: true,
       contactEmail: true,
       contactEmailPublic: true,
       fbId: true,
@@ -31,6 +32,7 @@ export default async function MemberProfilePage({
   if (!member || member.status !== "APPROVED") notFound();
 
   const gd = member.gd.filter((g) => g.trim().length > 0);
+  const workPortfolio = member.workPortfolio.filter((w) => w.trim().length > 0);
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-16">
@@ -59,6 +61,19 @@ export default async function MemberProfilePage({
             {gd.map((g, i) => (
               <li key={i} className="rounded-lg bg-wood-100 px-3 py-2">
                 {g}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {workPortfolio.length > 0 && (
+        <section className="mt-8">
+          <h2 className="font-display text-lg text-wood-800 mb-2">Work Portfolio</h2>
+          <ul className="grid grid-cols-2 gap-2 text-sm text-wood-700">
+            {workPortfolio.map((w, i) => (
+              <li key={i} className="rounded-lg bg-wood-100 px-3 py-2">
+                {w}
               </li>
             ))}
           </ul>

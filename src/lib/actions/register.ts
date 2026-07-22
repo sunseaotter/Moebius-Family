@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
-import { normalizeGd } from "@/lib/gd";
+import { normalizeGd, normalizeWorkPortfolio } from "@/lib/slots";
 import { extractPhoto } from "@/lib/photo";
 import { registerSchema } from "@/lib/validation";
 import { sendMail, adminNewRegistrationEmail } from "@/lib/mailer";
@@ -24,6 +24,7 @@ export async function registerAction(
     tttGroupName: formData.get("tttGroupName"),
     lifePurpose: formData.get("lifePurpose"),
     gd: formData.getAll("gd"),
+    workPortfolio: formData.getAll("workPortfolio"),
     contactEmail: formData.get("contactEmail"),
     contactEmailPublic: formData.get("contactEmailPublic") === "on",
     fbId: formData.get("fbId") || undefined,
@@ -59,6 +60,7 @@ export async function registerAction(
       tttGroupName: data.tttGroupName,
       lifePurpose: data.lifePurpose,
       gd: normalizeGd(data.gd),
+      workPortfolio: normalizeWorkPortfolio(data.workPortfolio),
       contactEmail: data.contactEmail,
       contactEmailPublic: data.contactEmailPublic,
       fbId: data.fbId || null,

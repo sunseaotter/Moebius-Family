@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { normalizeGd } from "@/lib/gd";
+import { normalizeGd, normalizeWorkPortfolio } from "@/lib/slots";
 import { extractPhoto } from "@/lib/photo";
 import { profileUpdateSchema } from "@/lib/validation";
 
@@ -26,6 +26,7 @@ export async function updateProfileAction(
     tttGroupName: formData.get("tttGroupName"),
     lifePurpose: formData.get("lifePurpose"),
     gd: formData.getAll("gd"),
+    workPortfolio: formData.getAll("workPortfolio"),
     contactEmail: formData.get("contactEmail"),
     contactEmailPublic: formData.get("contactEmailPublic") === "on",
     fbId: formData.get("fbId") || undefined,
@@ -54,6 +55,7 @@ export async function updateProfileAction(
       tttGroupName: data.tttGroupName,
       lifePurpose: data.lifePurpose,
       gd: normalizeGd(data.gd),
+      workPortfolio: normalizeWorkPortfolio(data.workPortfolio),
       contactEmail: data.contactEmail,
       contactEmailPublic: data.contactEmailPublic,
       fbId: data.fbId || null,

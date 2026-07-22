@@ -10,6 +10,18 @@ export default async function MembersPage({
   const { q } = await searchParams;
   const query = q?.trim() ?? "";
 
+  // Prisma's scalar array filters (has/hasSome/...) only do exact-value matching,
+  // so a substring match against GD entries needs a raw query.
+  const gdMatchIds = query
+    ? (
+        await prisma.$queryRaw<{ id: string }[]>`
+          SELECT id FROM "User"
+          WHERE status = 'APPROVED'
+            AND EXISTS (SELECT 1 FROM unnest(gd) AS g WHERE g ILIKE ${`%${query}%`})
+        `
+      ).map((r) => r.id)
+    : [];
+
   const members = await prisma.user.findMany({
     where: {
       status: "APPROVED",
@@ -20,6 +32,7 @@ export default async function MembersPage({
               { nationality: { contains: query, mode: "insensitive" } },
               { tttGroupName: { contains: query, mode: "insensitive" } },
               { lifePurpose: { contains: query, mode: "insensitive" } },
+              ...(gdMatchIds.length > 0 ? [{ id: { in: gdMatchIds } }] : []),
             ],
           }
         : {}),
@@ -44,7 +57,7 @@ export default async function MembersPage({
           type="text"
           name="q"
           defaultValue={query}
-          placeholder="Search by name, nationality, TTT group, or life purpose…"
+          placeholder="Search by name, nationality, TTT group, GD, or life purpose…"
           className="w-full rounded-full border border-wood-200 bg-white px-5 py-3 text-wood-900 focus:border-sage-500 focus:outline-none"
         />
       </form>

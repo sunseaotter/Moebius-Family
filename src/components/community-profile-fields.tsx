@@ -1,8 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { GD_SLOTS, normalizeGd } from "@/lib/gd";
+import {
+  GD_SLOTS,
+  WORK_PORTFOLIO_SLOTS,
+  MIN_GD_ENTRIES,
+  MIN_WORK_PORTFOLIO_ENTRIES,
+  normalizeGd,
+  normalizeWorkPortfolio,
+} from "@/lib/slots";
 import { MAX_PHOTO_BYTES } from "@/lib/photo";
+import { NATIONALITIES } from "@/lib/validation";
 
 export type ProfileFieldDefaults = {
   name?: string;
@@ -12,6 +20,7 @@ export type ProfileFieldDefaults = {
   tttGroupName?: string;
   lifePurpose?: string;
   gd?: string[];
+  workPortfolio?: string[];
   contactEmail?: string;
   contactEmailPublic?: boolean;
   fbId?: string | null;
@@ -35,6 +44,7 @@ export function CommunityProfileFields({
   photo?: ProfilePhoto;
 }) {
   const gd = normalizeGd(defaults?.gd);
+  const workPortfolio = normalizeWorkPortfolio(defaults?.workPortfolio);
   const [photoError, setPhotoError] = useState<string | null>(null);
 
   function onPhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -93,13 +103,22 @@ export function CommunityProfileFields({
         <label className={labelClass} htmlFor="nationality">
           Nationality
         </label>
-        <input
+        <select
           id="nationality"
           name="nationality"
           required
-          defaultValue={defaults?.nationality}
+          defaultValue={defaults?.nationality ?? ""}
           className={inputClass}
-        />
+        >
+          <option value="" disabled>
+            Select nationality…
+          </option>
+          {NATIONALITIES.map((n) => (
+            <option key={n} value={n}>
+              {n}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -164,6 +183,9 @@ export function CommunityProfileFields({
 
       <div>
         <span className={labelClass}>Your GD</span>
+        <p className="mb-2 text-xs text-wood-500">
+          {GD_SLOTS} spaces available — please fill in at least {MIN_GD_ENTRIES}.
+        </p>
         <div className="grid grid-cols-2 gap-3">
           {Array.from({ length: GD_SLOTS }).map((_, i) => (
             <input
@@ -171,6 +193,25 @@ export function CommunityProfileFields({
               name="gd"
               placeholder={`GD ${i + 1}`}
               defaultValue={gd[i]}
+              className={inputClass}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <span className={labelClass}>Work Portfolio</span>
+        <p className="mb-2 text-xs text-wood-500">
+          {WORK_PORTFOLIO_SLOTS} spaces available — please fill in at least{" "}
+          {MIN_WORK_PORTFOLIO_ENTRIES}.
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {Array.from({ length: WORK_PORTFOLIO_SLOTS }).map((_, i) => (
+            <input
+              key={i}
+              name="workPortfolio"
+              placeholder={`Work Portfolio ${i + 1}`}
+              defaultValue={workPortfolio[i]}
               className={inputClass}
             />
           ))}
