@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { normalizeGd } from "@/lib/gd";
+import { extractPhoto } from "@/lib/photo";
 import { profileUpdateSchema } from "@/lib/validation";
 
 export type ProfileUpdateState = { error?: string; success?: boolean } | undefined;
@@ -37,6 +38,12 @@ export async function updateProfileAction(
   }
   const data = parsed.data;
 
+  const { photo, error: photoError } = await extractPhoto(formData);
+  if (photoError) {
+    return { error: photoError };
+  }
+  const removePhoto = formData.get("removePhoto") === "on";
+
   await prisma.user.update({
     where: { id: session.user.id },
     data: {
@@ -51,6 +58,11 @@ export async function updateProfileAction(
       contactEmailPublic: data.contactEmailPublic,
       fbId: data.fbId || null,
       personalWebsite: data.personalWebsite || null,
+      ...(photo
+        ? { photo: photo.buffer, photoType: photo.mimeType, hasPhoto: true }
+        : removePhoto
+          ? { photo: null, photoType: null, hasPhoto: false }
+          : {}),
     },
   });
 

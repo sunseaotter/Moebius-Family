@@ -44,6 +44,10 @@ model User {
   fbId               String?
   personalWebsite    String?
 
+  photo     Bytes?
+  photoType String?
+  hasPhoto  Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

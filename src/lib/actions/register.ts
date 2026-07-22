@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
 import { normalizeGd } from "@/lib/gd";
+import { extractPhoto } from "@/lib/photo";
 import { registerSchema } from "@/lib/validation";
 import { sendMail, adminNewRegistrationEmail } from "@/lib/mailer";
 
@@ -35,6 +36,11 @@ export async function registerAction(
   }
   const data = parsed.data;
 
+  const { photo, error: photoError } = await extractPhoto(formData);
+  if (photoError) {
+    return { error: photoError };
+  }
+
   const existing = await prisma.user.findUnique({ where: { email: data.email } });
   if (existing) {
     return { error: "This email is already registered" };
@@ -57,6 +63,7 @@ export async function registerAction(
       contactEmailPublic: data.contactEmailPublic,
       fbId: data.fbId || null,
       personalWebsite: data.personalWebsite || null,
+      ...(photo && { photo: photo.buffer, photoType: photo.mimeType, hasPhoto: true }),
     },
   });
 

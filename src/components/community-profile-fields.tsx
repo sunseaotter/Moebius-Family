@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import { GD_SLOTS, normalizeGd } from "@/lib/gd";
+import { MAX_PHOTO_BYTES } from "@/lib/photo";
 
 export type ProfileFieldDefaults = {
   name?: string;
@@ -14,15 +18,64 @@ export type ProfileFieldDefaults = {
   personalWebsite?: string | null;
 };
 
+export type ProfilePhoto = {
+  userId: string;
+  hasPhoto: boolean;
+};
+
 const inputClass =
   "w-full rounded-lg border border-wood-200 bg-white px-3 py-2 text-wood-900 focus:border-sage-500 focus:outline-none";
 const labelClass = "block text-sm text-wood-700 mb-1";
 
-export function CommunityProfileFields({ defaults }: { defaults?: ProfileFieldDefaults }) {
+export function CommunityProfileFields({
+  defaults,
+  photo,
+}: {
+  defaults?: ProfileFieldDefaults;
+  photo?: ProfilePhoto;
+}) {
   const gd = normalizeGd(defaults?.gd);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+
+  function onPhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file && file.size > MAX_PHOTO_BYTES) {
+      setPhotoError("That photo is larger than 1MB — please choose a smaller file.");
+      e.target.value = "";
+    } else {
+      setPhotoError(null);
+    }
+  }
 
   return (
     <div className="space-y-6">
+      <div>
+        <span className={labelClass}>Profile Photo</span>
+        {photo?.hasPhoto && (
+          <div className="mb-3 flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/api/members/${photo.userId}/photo`}
+              alt="Current profile photo"
+              className="h-16 w-16 rounded-full border border-wood-200 object-cover"
+            />
+            <label className="flex items-center gap-2 text-sm text-wood-600">
+              <input type="checkbox" name="removePhoto" className="rounded border-wood-300" />
+              Remove current photo
+            </label>
+          </div>
+        )}
+        <input
+          type="file"
+          name="photo"
+          accept="image/*"
+          onChange={onPhotoChange}
+          className="block w-full text-sm text-wood-700 file:mr-3 file:rounded-full file:border-0 file:bg-sage-600 file:px-4 file:py-1.5 file:text-white hover:file:bg-sage-700"
+        />
+        <p className="mt-1 text-xs text-wood-500">JPG or PNG, up to 1MB.</p>
+        {photoError && <p className="mt-1 text-sm text-red-600">{photoError}</p>}
+      </div>
+
       <div>
         <label className={labelClass} htmlFor="name">
           Name

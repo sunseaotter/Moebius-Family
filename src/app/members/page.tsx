@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { Avatar } from "@/components/avatar";
 
 export default async function MembersPage({
   searchParams,
@@ -30,6 +31,7 @@ export default async function MembersPage({
       nationality: true,
       tttGroupName: true,
       lifePurpose: true,
+      hasPhoto: true,
     },
   });
 
@@ -55,11 +57,14 @@ export default async function MembersPage({
             <Link
               key={m.id}
               href={`/members/${m.id}`}
-              className="rounded-2xl border border-wood-200 bg-white/60 p-5 hover:border-sage-400 transition-colors"
+              className="flex gap-4 rounded-2xl border border-wood-200 bg-white/60 p-5 hover:border-sage-400 transition-colors"
             >
-              <h2 className="font-display text-lg text-wood-800">{m.name}</h2>
-              <p className="text-sm text-sage-700">{m.nationality} · {m.tttGroupName}</p>
-              <p className="mt-2 text-sm text-wood-600 line-clamp-2">{m.lifePurpose}</p>
+              <Avatar userId={m.id} name={m.name} hasPhoto={m.hasPhoto} size={48} />
+              <div>
+                <h2 className="font-display text-lg text-wood-800">{m.name}</h2>
+                <p className="text-sm text-sage-700">{m.nationality} · {m.tttGroupName}</p>
+                <p className="mt-2 text-sm text-wood-600 line-clamp-2">{m.lifePurpose}</p>
+              </div>
             </Link>
           ))}
         </div>

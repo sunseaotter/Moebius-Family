@@ -2,14 +2,24 @@
 
 import { useActionState } from "react";
 import { updateProfileAction } from "@/lib/actions/profile";
-import { CommunityProfileFields, ProfileFieldDefaults } from "@/components/community-profile-fields";
+import {
+  CommunityProfileFields,
+  ProfileFieldDefaults,
+  ProfilePhoto,
+} from "@/components/community-profile-fields";
 
-export function ProfileForm({ defaults }: { defaults: ProfileFieldDefaults }) {
+export function ProfileForm({
+  defaults,
+  photo,
+}: {
+  defaults: ProfileFieldDefaults;
+  photo: ProfilePhoto;
+}) {
   const [state, formAction, pending] = useActionState(updateProfileAction, undefined);
 
   return (
     <form action={formAction} className="space-y-6">
-      <CommunityProfileFields defaults={defaults} />
+      <CommunityProfileFields defaults={defaults} photo={photo} />
 
       {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
       {state?.success && (

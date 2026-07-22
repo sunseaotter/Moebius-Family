@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { Avatar } from "@/components/avatar";
 
 export default async function MemberProfilePage({
   params,
@@ -8,20 +9,43 @@ export default async function MemberProfilePage({
 }) {
   const { id } = await params;
 
-  const member = await prisma.user.findUnique({ where: { id } });
+  const member = await prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      status: true,
+      nationality: true,
+      tttGroupName: true,
+      tttStartYear: true,
+      tttStartMonth: true,
+      lifePurpose: true,
+      gd: true,
+      contactEmail: true,
+      contactEmailPublic: true,
+      fbId: true,
+      personalWebsite: true,
+      hasPhoto: true,
+    },
+  });
   if (!member || member.status !== "APPROVED") notFound();
 
   const gd = member.gd.filter((g) => g.trim().length > 0);
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-16">
-      <h1 className="font-display text-3xl text-wood-800">{member.name}</h1>
-      <p className="mt-1 text-sage-700">
-        {member.nationality} · {member.tttGroupName}
-      </p>
-      <p className="text-sm text-wood-500">
-        TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
-      </p>
+      <div className="flex items-center gap-5">
+        <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size={80} />
+        <div>
+          <h1 className="font-display text-3xl text-wood-800">{member.name}</h1>
+          <p className="mt-1 text-sage-700">
+            {member.nationality} · {member.tttGroupName}
+          </p>
+          <p className="text-sm text-wood-500">
+            TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
+          </p>
+        </div>
+      </div>
 
       <section className="mt-8">
         <h2 className="font-display text-lg text-wood-800 mb-2">Life Purpose</h2>
