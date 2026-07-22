@@ -1,8 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf6ee;
+  --foreground: #3a2e22;
+
+  --color-wood-50: #faf6ee;
+  --color-wood-100: #f2e8d5;
+  --color-wood-200: #e4d2ac;
+  --color-wood-300: #d3b585;
+  --color-wood-400: #bd9662;
+  --color-wood-500: #a1794a;
+  --color-wood-600: #83603a;
+  --color-wood-700: #664a2f;
+  --color-wood-800: #4a3624;
+  --color-wood-900: #3a2e22;
+
+  --color-sage-50: #f2f6ee;
+  --color-sage-100: #e2ead7;
+  --color-sage-200: #c4d6b1;
+  --color-sage-300: #a2bd87;
+  --color-sage-400: #82a565;
+  --color-sage-500: #66894c;
+  --color-sage-600: #506d3c;
+  --color-sage-700: #3f5730;
+  --color-sage-800: #334527;
+  --color-sage-900: #2b3921;
 }
 
 @theme inline {
@@ -10,17 +32,32 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+  --font-display: var(--font-zen-maru);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-wood-50: var(--color-wood-50);
+  --color-wood-100: var(--color-wood-100);
+  --color-wood-200: var(--color-wood-200);
+  --color-wood-300: var(--color-wood-300);
+  --color-wood-400: var(--color-wood-400);
+  --color-wood-500: var(--color-wood-500);
+  --color-wood-600: var(--color-wood-600);
+  --color-wood-700: var(--color-wood-700);
+  --color-wood-800: var(--color-wood-800);
+  --color-wood-900: var(--color-wood-900);
+
+  --color-sage-50: var(--color-sage-50);
+  --color-sage-100: var(--color-sage-100);
+  --color-sage-200: var(--color-sage-200);
+  --color-sage-300: var(--color-sage-300);
+  --color-sage-400: var(--color-sage-400);
+  --color-sage-500: var(--color-sage-500);
+  --color-sage-600: var(--color-sage-600);
+  --color-sage-700: var(--color-sage-700);
+  --color-sage-800: var(--color-sage-800);
+  --color-sage-900: var(--color-sage-900);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

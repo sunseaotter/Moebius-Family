@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum RegistrationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           String @id @default(cuid())
+  email        String @unique
+  passwordHash String
+  name         String
+
+  role   Role               @default(USER)
+  status RegistrationStatus @default(PENDING)
+
+  nationality   String
+  tttStartYear  Int
+  tttStartMonth Int
+  tttGroupName  String
+  lifePurpose   String @db.Text
+
+  // Fixed 10 slots, always stored as a 10-element array.
+  gd String[] @default([])
+
+  contactEmail       String
+  contactEmailPublic Boolean @default(false)
+  fbId               String?
+  personalWebsite    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  resetTokens PasswordResetToken[]
+
+  @@index([status])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  @@index([userId])
+}
