@@ -50,21 +50,21 @@ export default function Home() {
             <h2 className="font-display text-lg text-wood-800 mb-2">Register</h2>
             <p className="text-sm text-wood-600">
               Create your profile — your TTT group, your Life Purpose, and
-              the GD moments that shaped you.
+              the GDs that shaped you.
             </p>
           </div>
           <div className="rounded-2xl border border-wood-200 bg-white/60 p-6">
             <h2 className="font-display text-lg text-wood-800 mb-2">Discover</h2>
             <p className="text-sm text-wood-600">
-              Search the directory by name, nationality, or TTT group to find
-              members from across the family.
+              Search the directory by name, TTT group, or GD to connect to
+              find your potential partner.
             </p>
           </div>
           <div className="rounded-2xl border border-wood-200 bg-white/60 p-6">
             <h2 className="font-display text-lg text-wood-800 mb-2">Connect</h2>
             <p className="text-sm text-wood-600">
-              Reach out directly through the contact details members choose
-              to share on their profile.
+              Reach out directly through the contact details that members
+              choose to share on their profile.
             </p>
           </div>
         </div>
