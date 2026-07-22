@@ -1,4 +1,4 @@
-# The Moebius Family
+# The Global Moebius Family
 
 A place for Moebius community members to register, browse, and connect with
 each other. Built with Next.js (App Router), PostgreSQL, Prisma, and

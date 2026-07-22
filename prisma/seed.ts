@@ -30,7 +30,7 @@ async function main() {
       tttStartYear: new Date().getFullYear(),
       tttStartMonth: 1,
       tttGroupName: "—",
-      lifePurpose: "Administering The Moebius Family.",
+      lifePurpose: "Administering The Global Moebius Family.",
       gd: [],
       contactEmail: email,
       contactEmailPublic: false,

@@ -21,7 +21,7 @@ const zenMaru = Zen_Maru_Gothic({
 });
 
 export const metadata: Metadata = {
-  title: "The Moebius Family",
+  title: "The Global Moebius Family",
   description: "A place for Moebius to get to know each other and to connect.",
 };
 
@@ -40,7 +40,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-wood-200 py-8 text-center text-xs text-wood-500">
-          The Moebius Family — a place to know each other and to connect.
+          The Global Moebius Family — a place to know each other and to connect.
         </footer>
       </body>
     </html>

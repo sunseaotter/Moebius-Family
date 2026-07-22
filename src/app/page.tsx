@@ -15,7 +15,7 @@ export default function Home() {
 
         <div className="relative mx-auto max-w-4xl px-6 py-24 text-center">
           <p className="mb-4 text-sm uppercase tracking-[0.2em] text-sage-700">
-            The Moebius Family
+            The Global Moebius Family
           </p>
           <h1 className="font-display text-4xl sm:text-5xl leading-tight text-wood-900">
             A Place for the Moebius to get to know each other, to connect,

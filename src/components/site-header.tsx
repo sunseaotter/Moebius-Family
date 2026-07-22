@@ -9,7 +9,7 @@ export async function SiteHeader() {
     <header className="border-b border-wood-200 bg-wood-50/90 backdrop-blur sticky top-0 z-40">
       <div className="mx-auto max-w-5xl flex items-center justify-between px-6 py-4">
         <Link href="/" className="font-display text-lg text-wood-800 tracking-wide">
-          The Moebius Family
+          The Global Moebius Family
         </Link>
         <nav className="flex items-center gap-5 text-sm text-wood-700">
           <Link href="/members" className="hover:text-sage-700">
