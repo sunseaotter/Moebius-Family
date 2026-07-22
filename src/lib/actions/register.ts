@@ -33,6 +33,7 @@ export async function registerAction(
     fbId: formData.get("fbId") || undefined,
     personalWebsite: formData.getAll("personalWebsite"),
     profilePublic: formData.get("profilePublic") === "on",
+    aboutYourself: formData.get("aboutYourself") || undefined,
   };
 
   const parsed = registerSchema.safeParse(raw);
@@ -72,6 +73,7 @@ export async function registerAction(
       fbId: data.fbId || null,
       personalWebsite: normalizePersonalWebsite(data.personalWebsite),
       profilePublic: data.profilePublic,
+      aboutYourself: data.aboutYourself || null,
       ...(photo && { photo: photo.buffer, photoType: photo.mimeType, hasPhoto: true }),
     },
   });

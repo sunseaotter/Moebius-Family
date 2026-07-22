@@ -28,6 +28,7 @@ export default async function ProfilePage() {
       fbId: true,
       personalWebsite: true,
       profilePublic: true,
+      aboutYourself: true,
       hasPhoto: true,
     },
   });
@@ -60,6 +61,7 @@ export default async function ProfilePage() {
             fbId: me.fbId,
             personalWebsite: me.personalWebsite,
             profilePublic: me.profilePublic,
+            aboutYourself: me.aboutYourself,
           }}
         />
       )}

@@ -51,6 +51,7 @@ export default async function MembersPage({
       select: {
         id: true,
         name: true,
+        role: true,
         nationality: true,
         tttGroupName: true,
         lifePurpose: true,
@@ -124,7 +125,9 @@ export default async function MembersPage({
               <Avatar userId={m.id} name={m.name} hasPhoto={m.hasPhoto} size={48} />
               <div>
                 <h2 className="font-display text-lg text-wood-800">{m.name}</h2>
-                <p className="text-sm text-sage-700">{m.nationality} · {m.tttGroupName}</p>
+                {m.role !== "ADMIN" && (
+                  <p className="text-sm text-sage-700">{m.nationality} · {m.tttGroupName}</p>
+                )}
                 <p className="mt-2 text-sm text-wood-600 line-clamp-2">{m.lifePurpose}</p>
               </div>
             </Link>

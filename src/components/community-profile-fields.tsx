@@ -29,6 +29,7 @@ export type ProfileFieldDefaults = {
   fbId?: string | null;
   personalWebsite?: string[];
   profilePublic?: boolean;
+  aboutYourself?: string | null;
 };
 
 export type ProfilePhoto = {
@@ -275,6 +276,19 @@ export function CommunityProfileFields({
             />
           ))}
         </div>
+      </div>
+
+      <div>
+        <label className={labelClass} htmlFor="aboutYourself">
+          Tell us about yourself
+        </label>
+        <textarea
+          id="aboutYourself"
+          name="aboutYourself"
+          rows={4}
+          defaultValue={defaults?.aboutYourself ?? ""}
+          className={inputClass}
+        />
       </div>
     </div>
   );

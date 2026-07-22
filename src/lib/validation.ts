@@ -29,6 +29,7 @@ const profileFieldsSchema = z.object({
   fbId: z.string().trim().optional().or(z.literal("")),
   personalWebsite: z.array(z.string()).max(PERSONAL_WEBSITE_SLOTS).default([]),
   profilePublic: z.coerce.boolean().default(false),
+  aboutYourself: z.string().trim().optional().or(z.literal("")),
 });
 
 function checkProfileFields(

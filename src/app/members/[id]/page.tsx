@@ -3,6 +3,10 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Avatar } from "@/components/avatar";
 
+function toAbsoluteUrl(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
 export default async function MemberProfilePage({
   params,
 }: {
@@ -25,6 +29,7 @@ export default async function MemberProfilePage({
       tttStartYear: true,
       tttStartMonth: true,
       lifePurpose: true,
+      aboutYourself: true,
       gd: true,
       workPortfolio: true,
       contactEmail: true,
@@ -37,9 +42,11 @@ export default async function MemberProfilePage({
   if (!member || member.status !== "APPROVED") notFound();
   if (!session?.user && !member.profilePublic) notFound();
 
+  const isAdmin = member.role === "ADMIN";
   const gd = member.gd.filter((g) => g.trim().length > 0);
   const workPortfolio = member.workPortfolio.filter((w) => w.trim().length > 0);
   const personalWebsites = member.personalWebsite.filter((w) => w.trim().length > 0);
+  const showEmail = member.contactEmailPublic || isAdmin;
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-16">
@@ -50,13 +57,15 @@ export default async function MemberProfilePage({
           {member.alsoKnownAs && (
             <p className="text-sm text-wood-500">Also known as {member.alsoKnownAs}</p>
           )}
-          <p className="mt-1 text-sage-700">
-            {member.nationality} · {member.tttGroupName}
-          </p>
-          {member.role !== "ADMIN" && (
-            <p className="text-sm text-wood-500">
-              TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
-            </p>
+          {!isAdmin && (
+            <>
+              <p className="mt-1 text-sage-700">
+                {member.nationality} · {member.tttGroupName}
+              </p>
+              <p className="text-sm text-wood-500">
+                TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
+              </p>
+            </>
           )}
         </div>
       </div>
@@ -65,6 +74,13 @@ export default async function MemberProfilePage({
         <h2 className="font-display text-lg text-wood-800 mb-2">Life Purpose</h2>
         <p className="text-wood-700 whitespace-pre-wrap">{member.lifePurpose}</p>
       </section>
+
+      {member.aboutYourself && (
+        <section className="mt-8">
+          <h2 className="font-display text-lg text-wood-800 mb-2">About</h2>
+          <p className="text-wood-700 whitespace-pre-wrap">{member.aboutYourself}</p>
+        </section>
+      )}
 
       {gd.length > 0 && (
         <section className="mt-8">
@@ -95,7 +111,7 @@ export default async function MemberProfilePage({
       <section className="mt-8">
         <h2 className="font-display text-lg text-wood-800 mb-2">Connect</h2>
         <ul className="space-y-1 text-sm">
-          {member.contactEmailPublic && (
+          {showEmail && (
             <li>
               <span className="text-wood-500">Email: </span>
               <a href={`mailto:${member.contactEmail}`} className="text-sage-700 hover:underline">
@@ -106,14 +122,21 @@ export default async function MemberProfilePage({
           {member.fbId && (
             <li>
               <span className="text-wood-500">FB Page: </span>
-              <span className="text-wood-800">{member.fbId}</span>
+              <a
+                href={toAbsoluteUrl(member.fbId)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sage-700 hover:underline"
+              >
+                {member.fbId}
+              </a>
             </li>
           )}
           {personalWebsites.map((url, i) => (
             <li key={i}>
               <span className="text-wood-500">Website: </span>
               <a
-                href={url}
+                href={toAbsoluteUrl(url)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sage-700 hover:underline"
@@ -122,7 +145,7 @@ export default async function MemberProfilePage({
               </a>
             </li>
           ))}
-          {!member.contactEmailPublic && !member.fbId && personalWebsites.length === 0 && (
+          {!showEmail && !member.fbId && personalWebsites.length === 0 && (
             <li className="text-wood-500">This member hasn&apos;t shared any contact details.</li>
           )}
         </ul>
