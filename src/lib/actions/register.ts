@@ -76,13 +76,18 @@ export async function registerAction(
     },
   });
 
-  const adminEmail = process.env.ADMIN_EMAIL;
-  if (adminEmail) {
-    const { subject, html } = adminNewRegistrationEmail(user.name, user.email);
-    await sendMail(adminEmail, subject, html).catch((e) =>
-      console.error("Failed to send admin notification email", e)
-    );
-  }
+  const admins = await prisma.user.findMany({
+    where: { role: "ADMIN" },
+    select: { email: true },
+  });
+  const { subject, html } = adminNewRegistrationEmail(user.name, user.email);
+  await Promise.all(
+    admins.map((admin) =>
+      sendMail(admin.email, subject, html).catch((e) =>
+        console.error("Failed to send admin notification email", e)
+      )
+    )
+  );
 
   redirect("/login?registered=1");
 }

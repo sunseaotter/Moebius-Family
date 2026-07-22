@@ -40,7 +40,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-wood-200 py-8 text-center text-xs text-wood-500">
-          The Global Moebius Family — a place to know each other and to connect.
+          The Moebius Family — Creating Our Meaningful Work Together.
         </footer>
       </body>
     </html>

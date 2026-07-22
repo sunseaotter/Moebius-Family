@@ -18,6 +18,7 @@ export default async function MemberProfilePage({
       name: true,
       alsoKnownAs: true,
       status: true,
+      role: true,
       profilePublic: true,
       nationality: true,
       tttGroupName: true,
@@ -52,9 +53,11 @@ export default async function MemberProfilePage({
           <p className="mt-1 text-sage-700">
             {member.nationality} · {member.tttGroupName}
           </p>
-          <p className="text-sm text-wood-500">
-            TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
-          </p>
+          {member.role !== "ADMIN" && (
+            <p className="text-sm text-wood-500">
+              TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
+            </p>
+          )}
         </div>
       </div>
 
