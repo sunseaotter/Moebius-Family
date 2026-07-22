@@ -4,16 +4,19 @@ import { useState } from "react";
 import {
   GD_SLOTS,
   WORK_PORTFOLIO_SLOTS,
+  PERSONAL_WEBSITE_SLOTS,
   MIN_GD_ENTRIES,
   MIN_WORK_PORTFOLIO_ENTRIES,
   normalizeGd,
   normalizeWorkPortfolio,
+  normalizePersonalWebsite,
 } from "@/lib/slots";
-import { MAX_PHOTO_BYTES } from "@/lib/photo";
-import { NATIONALITIES } from "@/lib/validation";
+import { NATIONALITIES, NATIONALITY_OPTIONS } from "@/lib/validation";
+import { PhotoUploadField } from "@/components/photo-upload-field";
 
 export type ProfileFieldDefaults = {
   name?: string;
+  alsoKnownAs?: string | null;
   nationality?: string;
   tttStartYear?: number;
   tttStartMonth?: number;
@@ -24,7 +27,7 @@ export type ProfileFieldDefaults = {
   contactEmail?: string;
   contactEmailPublic?: boolean;
   fbId?: string | null;
-  personalWebsite?: string | null;
+  personalWebsite?: string[];
 };
 
 export type ProfilePhoto = {
@@ -45,46 +48,20 @@ export function CommunityProfileFields({
 }) {
   const gd = normalizeGd(defaults?.gd);
   const workPortfolio = normalizeWorkPortfolio(defaults?.workPortfolio);
-  const [photoError, setPhotoError] = useState<string | null>(null);
+  const personalWebsite = normalizePersonalWebsite(defaults?.personalWebsite);
 
-  function onPhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file && file.size > MAX_PHOTO_BYTES) {
-      setPhotoError("That photo is larger than 1MB — please choose a smaller file.");
-      e.target.value = "";
-    } else {
-      setPhotoError(null);
-    }
-  }
+  const isKnownNationality = (NATIONALITIES as readonly string[]).includes(
+    defaults?.nationality ?? ""
+  );
+  const [nationality, setNationality] = useState(
+    !defaults?.nationality ? "" : isKnownNationality ? defaults.nationality : "Others"
+  );
 
   return (
     <div className="space-y-6">
-      <div>
-        <span className={labelClass}>Profile Photo</span>
-        {photo?.hasPhoto && (
-          <div className="mb-3 flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`/api/members/${photo.userId}/photo`}
-              alt="Current profile photo"
-              className="h-16 w-16 rounded-full border border-wood-200 object-cover"
-            />
-            <label className="flex items-center gap-2 text-sm text-wood-600">
-              <input type="checkbox" name="removePhoto" className="rounded border-wood-300" />
-              Remove current photo
-            </label>
-          </div>
-        )}
-        <input
-          type="file"
-          name="photo"
-          accept="image/*"
-          onChange={onPhotoChange}
-          className="block w-full text-sm text-wood-700 file:mr-3 file:rounded-full file:border-0 file:bg-sage-600 file:px-4 file:py-1.5 file:text-white hover:file:bg-sage-700"
-        />
-        <p className="mt-1 text-xs text-wood-500">JPG or PNG, up to 1MB.</p>
-        {photoError && <p className="mt-1 text-sm text-red-600">{photoError}</p>}
-      </div>
+      <PhotoUploadField
+        existingPhotoUrl={photo?.hasPhoto ? `/api/members/${photo.userId}/photo` : undefined}
+      />
 
       <div>
         <label className={labelClass} htmlFor="name">
@@ -100,6 +77,18 @@ export function CommunityProfileFields({
       </div>
 
       <div>
+        <label className={labelClass} htmlFor="alsoKnownAs">
+          Also Known As
+        </label>
+        <input
+          id="alsoKnownAs"
+          name="alsoKnownAs"
+          defaultValue={defaults?.alsoKnownAs ?? ""}
+          className={inputClass}
+        />
+      </div>
+
+      <div>
         <label className={labelClass} htmlFor="nationality">
           Nationality
         </label>
@@ -107,18 +96,27 @@ export function CommunityProfileFields({
           id="nationality"
           name="nationality"
           required
-          defaultValue={defaults?.nationality ?? ""}
+          value={nationality}
+          onChange={(e) => setNationality(e.target.value)}
           className={inputClass}
         >
           <option value="" disabled>
             Select nationality…
           </option>
-          {NATIONALITIES.map((n) => (
+          {NATIONALITY_OPTIONS.map((n) => (
             <option key={n} value={n}>
               {n}
             </option>
           ))}
         </select>
+        {nationality === "Others" && (
+          <input
+            name="nationalityOther"
+            placeholder="Please specify your nationality"
+            defaultValue={isKnownNationality ? "" : defaults?.nationality ?? ""}
+            className={`${inputClass} mt-2`}
+          />
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -200,7 +198,7 @@ export function CommunityProfileFields({
       </div>
 
       <div>
-        <span className={labelClass}>Work Portfolio</span>
+        <span className={labelClass}>Meaningful Work Portfolio</span>
         <p className="mb-2 text-xs text-wood-500">
           {WORK_PORTFOLIO_SLOTS} spaces available — please fill in at least{" "}
           {MIN_WORK_PORTFOLIO_ENTRIES}.
@@ -210,7 +208,7 @@ export function CommunityProfileFields({
             <input
               key={i}
               name="workPortfolio"
-              placeholder={`Work Portfolio ${i + 1}`}
+              placeholder={`Meaningful Work Portfolio ${i + 1}`}
               defaultValue={workPortfolio[i]}
               className={inputClass}
             />
@@ -243,21 +241,24 @@ export function CommunityProfileFields({
 
       <div>
         <label className={labelClass} htmlFor="fbId">
-          FB ID (optional)
+          FB Page (optional)
         </label>
         <input id="fbId" name="fbId" defaultValue={defaults?.fbId ?? ""} className={inputClass} />
       </div>
 
       <div>
-        <label className={labelClass} htmlFor="personalWebsite">
-          Personal Website (optional)
-        </label>
-        <input
-          id="personalWebsite"
-          name="personalWebsite"
-          defaultValue={defaults?.personalWebsite ?? ""}
-          className={inputClass}
-        />
+        <span className={labelClass}>Personal Website (optional)</span>
+        <div className="space-y-3">
+          {Array.from({ length: PERSONAL_WEBSITE_SLOTS }).map((_, i) => (
+            <input
+              key={i}
+              name="personalWebsite"
+              placeholder={`Personal Website ${i + 1}`}
+              defaultValue={personalWebsite[i]}
+              className={inputClass}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

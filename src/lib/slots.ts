@@ -1,5 +1,6 @@
 export const GD_SLOTS = 10;
 export const WORK_PORTFOLIO_SLOTS = 10;
+export const PERSONAL_WEBSITE_SLOTS = 3;
 
 export const MIN_GD_ENTRIES = 3;
 export const MIN_WORK_PORTFOLIO_ENTRIES = 1;
@@ -17,6 +18,10 @@ export function normalizeGd(gd: string[] | undefined | null): string[] {
 
 export function normalizeWorkPortfolio(workPortfolio: string[] | undefined | null): string[] {
   return normalizeSlots(workPortfolio, WORK_PORTFOLIO_SLOTS);
+}
+
+export function normalizePersonalWebsite(personalWebsite: string[] | undefined | null): string[] {
+  return normalizeSlots(personalWebsite, PERSONAL_WEBSITE_SLOTS);
 }
 
 export function countFilled(values: string[]): number {

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { normalizeGd, normalizeWorkPortfolio } from "@/lib/slots";
+import { normalizeGd, normalizeWorkPortfolio, normalizePersonalWebsite } from "@/lib/slots";
 import { extractPhoto } from "@/lib/photo";
 import { profileUpdateSchema } from "@/lib/validation";
 
@@ -20,7 +20,9 @@ export async function updateProfileAction(
 
   const raw = {
     name: formData.get("name"),
+    alsoKnownAs: formData.get("alsoKnownAs") || undefined,
     nationality: formData.get("nationality"),
+    nationalityOther: formData.get("nationalityOther") || undefined,
     tttStartYear: formData.get("tttStartYear"),
     tttStartMonth: formData.get("tttStartMonth"),
     tttGroupName: formData.get("tttGroupName"),
@@ -30,7 +32,7 @@ export async function updateProfileAction(
     contactEmail: formData.get("contactEmail"),
     contactEmailPublic: formData.get("contactEmailPublic") === "on",
     fbId: formData.get("fbId") || undefined,
-    personalWebsite: formData.get("personalWebsite") || undefined,
+    personalWebsite: formData.getAll("personalWebsite"),
   };
 
   const parsed = profileUpdateSchema.safeParse(raw);
@@ -38,6 +40,7 @@ export async function updateProfileAction(
     return { error: parsed.error.issues[0]?.message ?? "Please check your input and try again" };
   }
   const data = parsed.data;
+  const nationality = data.nationality === "Others" ? data.nationalityOther!.trim() : data.nationality;
 
   const { photo, error: photoError } = await extractPhoto(formData);
   if (photoError) {
@@ -49,7 +52,8 @@ export async function updateProfileAction(
     where: { id: session.user.id },
     data: {
       name: data.name,
-      nationality: data.nationality,
+      alsoKnownAs: data.alsoKnownAs || null,
+      nationality,
       tttStartYear: data.tttStartYear,
       tttStartMonth: data.tttStartMonth,
       tttGroupName: data.tttGroupName,
@@ -59,7 +63,7 @@ export async function updateProfileAction(
       contactEmail: data.contactEmail,
       contactEmailPublic: data.contactEmailPublic,
       fbId: data.fbId || null,
-      personalWebsite: data.personalWebsite || null,
+      personalWebsite: normalizePersonalWebsite(data.personalWebsite),
       ...(photo
         ? { photo: photo.buffer, photoType: photo.mimeType, hasPhoto: true }
         : removePhoto

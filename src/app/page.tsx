@@ -54,10 +54,10 @@ export default function Home() {
             </p>
           </div>
           <div className="rounded-2xl border border-wood-200 bg-white/60 p-6">
-            <h2 className="font-display text-lg text-wood-800 mb-2">Discover</h2>
+            <h2 className="font-display text-lg text-wood-800 mb-2">Find</h2>
             <p className="text-sm text-wood-600">
-              Search the directory by name, TTT group, or GD to connect to
-              find your potential partner.
+              Search the directory by name, TTT group, or GD to find your
+              potential partner.
             </p>
           </div>
           <div className="rounded-2xl border border-wood-200 bg-white/60 p-6">

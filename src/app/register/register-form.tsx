@@ -32,6 +32,19 @@ export function RegisterForm() {
           className={inputClass}
         />
       </div>
+      <div>
+        <label className={labelClass} htmlFor="confirmPassword">
+          Confirm Password
+        </label>
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          minLength={8}
+          required
+          className={inputClass}
+        />
+      </div>
 
       <hr className="border-wood-200" />
 

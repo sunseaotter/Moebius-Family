@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
-import { normalizeGd, normalizeWorkPortfolio } from "@/lib/slots";
+import { normalizeGd, normalizeWorkPortfolio, normalizePersonalWebsite } from "@/lib/slots";
 import { extractPhoto } from "@/lib/photo";
 import { registerSchema } from "@/lib/validation";
 import { sendMail, adminNewRegistrationEmail } from "@/lib/mailer";
@@ -16,9 +16,12 @@ export async function registerAction(
 ): Promise<RegisterFormState> {
   const raw = {
     name: formData.get("name"),
+    alsoKnownAs: formData.get("alsoKnownAs") || undefined,
     email: formData.get("email"),
     password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
     nationality: formData.get("nationality"),
+    nationalityOther: formData.get("nationalityOther") || undefined,
     tttStartYear: formData.get("tttStartYear"),
     tttStartMonth: formData.get("tttStartMonth"),
     tttGroupName: formData.get("tttGroupName"),
@@ -28,7 +31,7 @@ export async function registerAction(
     contactEmail: formData.get("contactEmail"),
     contactEmailPublic: formData.get("contactEmailPublic") === "on",
     fbId: formData.get("fbId") || undefined,
-    personalWebsite: formData.get("personalWebsite") || undefined,
+    personalWebsite: formData.getAll("personalWebsite"),
   };
 
   const parsed = registerSchema.safeParse(raw);
@@ -36,6 +39,7 @@ export async function registerAction(
     return { error: parsed.error.issues[0]?.message ?? "Please check your input and try again" };
   }
   const data = parsed.data;
+  const nationality = data.nationality === "Others" ? data.nationalityOther!.trim() : data.nationality;
 
   const { photo, error: photoError } = await extractPhoto(formData);
   if (photoError) {
@@ -52,9 +56,10 @@ export async function registerAction(
   const user = await prisma.user.create({
     data: {
       name: data.name,
+      alsoKnownAs: data.alsoKnownAs || null,
       email: data.email,
       passwordHash,
-      nationality: data.nationality,
+      nationality,
       tttStartYear: data.tttStartYear,
       tttStartMonth: data.tttStartMonth,
       tttGroupName: data.tttGroupName,
@@ -64,7 +69,7 @@ export async function registerAction(
       contactEmail: data.contactEmail,
       contactEmailPublic: data.contactEmailPublic,
       fbId: data.fbId || null,
-      personalWebsite: data.personalWebsite || null,
+      personalWebsite: normalizePersonalWebsite(data.personalWebsite),
       ...(photo && { photo: photo.buffer, photoType: photo.mimeType, hasPhoto: true }),
     },
   });

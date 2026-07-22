@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { ProfileForm } from "./profile-form";
+import { AdminProfileForm } from "./admin-profile-form";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -13,6 +14,7 @@ export default async function ProfilePage() {
       id: true,
       email: true,
       name: true,
+      alsoKnownAs: true,
       nationality: true,
       tttStartYear: true,
       tttStartMonth: true,
@@ -33,23 +35,31 @@ export default async function ProfilePage() {
     <div className="mx-auto max-w-lg px-6 py-16">
       <h1 className="font-display text-2xl text-wood-800 mb-1">My Profile</h1>
       <p className="text-sm text-wood-600 mb-8">{me.email}</p>
-      <ProfileForm
-        photo={{ userId: me.id, hasPhoto: me.hasPhoto }}
-        defaults={{
-          name: me.name,
-          nationality: me.nationality,
-          tttStartYear: me.tttStartYear,
-          tttStartMonth: me.tttStartMonth,
-          tttGroupName: me.tttGroupName,
-          lifePurpose: me.lifePurpose,
-          gd: me.gd,
-          workPortfolio: me.workPortfolio,
-          contactEmail: me.contactEmail,
-          contactEmailPublic: me.contactEmailPublic,
-          fbId: me.fbId,
-          personalWebsite: me.personalWebsite,
-        }}
-      />
+      {session.user.role === "ADMIN" ? (
+        <AdminProfileForm
+          photo={{ userId: me.id, hasPhoto: me.hasPhoto }}
+          defaults={{ name: me.name, contactEmail: me.contactEmail, fbId: me.fbId }}
+        />
+      ) : (
+        <ProfileForm
+          photo={{ userId: me.id, hasPhoto: me.hasPhoto }}
+          defaults={{
+            name: me.name,
+            alsoKnownAs: me.alsoKnownAs,
+            nationality: me.nationality,
+            tttStartYear: me.tttStartYear,
+            tttStartMonth: me.tttStartMonth,
+            tttGroupName: me.tttGroupName,
+            lifePurpose: me.lifePurpose,
+            gd: me.gd,
+            workPortfolio: me.workPortfolio,
+            contactEmail: me.contactEmail,
+            contactEmailPublic: me.contactEmailPublic,
+            fbId: me.fbId,
+            personalWebsite: me.personalWebsite,
+          }}
+        />
+      )}
     </div>
   );
 }

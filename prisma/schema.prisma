@@ -26,6 +26,7 @@ model User {
   email        String @unique
   passwordHash String
   name         String
+  alsoKnownAs  String?
 
   role   Role               @default(USER)
   status RegistrationStatus @default(PENDING)
@@ -45,7 +46,9 @@ model User {
   contactEmail       String
   contactEmailPublic Boolean @default(false)
   fbId               String?
-  personalWebsite    String?
+
+  // Fixed 3 slots, always stored as a 3-element array.
+  personalWebsite String[] @default([])
 
   photo     Bytes?
   photoType String?
