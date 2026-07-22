@@ -32,6 +32,7 @@ export async function registerAction(
     contactEmailPublic: formData.get("contactEmailPublic") === "on",
     fbId: formData.get("fbId") || undefined,
     personalWebsite: formData.getAll("personalWebsite"),
+    profilePublic: formData.get("profilePublic") === "on",
   };
 
   const parsed = registerSchema.safeParse(raw);
@@ -70,6 +71,7 @@ export async function registerAction(
       contactEmailPublic: data.contactEmailPublic,
       fbId: data.fbId || null,
       personalWebsite: normalizePersonalWebsite(data.personalWebsite),
+      profilePublic: data.profilePublic,
       ...(photo && { photo: photo.buffer, photoType: photo.mimeType, hasPhoto: true }),
     },
   });

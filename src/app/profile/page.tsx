@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { ProfileForm } from "./profile-form";
 import { AdminProfileForm } from "./admin-profile-form";
+import { ChangePasswordForm } from "@/components/change-password-form";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -26,6 +27,7 @@ export default async function ProfilePage() {
       contactEmailPublic: true,
       fbId: true,
       personalWebsite: true,
+      profilePublic: true,
       hasPhoto: true,
     },
   });
@@ -57,9 +59,11 @@ export default async function ProfilePage() {
             contactEmailPublic: me.contactEmailPublic,
             fbId: me.fbId,
             personalWebsite: me.personalWebsite,
+            profilePublic: me.profilePublic,
           }}
         />
       )}
+      <ChangePasswordForm />
     </div>
   );
 }

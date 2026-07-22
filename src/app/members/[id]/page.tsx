@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Avatar } from "@/components/avatar";
 
@@ -8,6 +9,7 @@ export default async function MemberProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const session = await auth();
 
   const member = await prisma.user.findUnique({
     where: { id },
@@ -16,6 +18,7 @@ export default async function MemberProfilePage({
       name: true,
       alsoKnownAs: true,
       status: true,
+      profilePublic: true,
       nationality: true,
       tttGroupName: true,
       tttStartYear: true,
@@ -31,6 +34,7 @@ export default async function MemberProfilePage({
     },
   });
   if (!member || member.status !== "APPROVED") notFound();
+  if (!session?.user && !member.profilePublic) notFound();
 
   const gd = member.gd.filter((g) => g.trim().length > 0);
   const workPortfolio = member.workPortfolio.filter((w) => w.trim().length > 0);

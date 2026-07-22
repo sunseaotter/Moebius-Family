@@ -28,6 +28,7 @@ const profileFieldsSchema = z.object({
   contactEmailPublic: z.coerce.boolean().default(false),
   fbId: z.string().trim().optional().or(z.literal("")),
   personalWebsite: z.array(z.string()).max(PERSONAL_WEBSITE_SLOTS).default([]),
+  profilePublic: z.coerce.boolean().default(false),
 });
 
 function checkProfileFields(
@@ -98,6 +99,22 @@ export const adminProfileUpdateSchema = z.object({
   contactEmail: z.string().trim().toLowerCase().email("Please enter a valid contact email"),
   fbId: z.string().trim().optional().or(z.literal("")),
 });
+
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Please enter your current password"),
+    newPassword: z.string().min(8, "New password must be at least 8 characters"),
+    confirmNewPassword: z.string().min(1, "Please confirm your new password"),
+  })
+  .superRefine((data, ctx) => {
+    if (data.newPassword !== data.confirmNewPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "New passwords do not match",
+        path: ["confirmNewPassword"],
+      });
+    }
+  });
 
 export const forgotPasswordSchema = z.object({
   email: z.string().trim().toLowerCase().email(),

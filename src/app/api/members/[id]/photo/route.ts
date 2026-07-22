@@ -6,16 +6,21 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 
   const user = await prisma.user.findUnique({
     where: { id },
-    select: { photo: true, photoType: true, status: true },
+    select: { photo: true, photoType: true, status: true, profilePublic: true },
   });
 
   if (!user?.photo) {
     return new Response(null, { status: 404 });
   }
 
-  if (user.status !== "APPROVED") {
-    const session = await auth();
-    if (session?.user.id !== id) {
+  const session = await auth();
+  const isOwner = session?.user.id === id;
+
+  if (!isOwner) {
+    if (user.status !== "APPROVED") {
+      return new Response(null, { status: 404 });
+    }
+    if (!session?.user && !user.profilePublic) {
       return new Response(null, { status: 404 });
     }
   }

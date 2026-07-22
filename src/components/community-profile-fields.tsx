@@ -28,6 +28,7 @@ export type ProfileFieldDefaults = {
   contactEmailPublic?: boolean;
   fbId?: string | null;
   personalWebsite?: string[];
+  profilePublic?: boolean;
 };
 
 export type ProfilePhoto = {
@@ -214,6 +215,21 @@ export function CommunityProfileFields({
             />
           ))}
         </div>
+      </div>
+
+      <div>
+        <label className="flex items-center gap-2 text-sm text-wood-700">
+          <input
+            type="checkbox"
+            name="profilePublic"
+            defaultChecked={defaults?.profilePublic}
+            className="rounded border-wood-300"
+          />
+          Make my profile public
+        </label>
+        <p className="mt-1 text-xs text-wood-500">
+          If yes, non-members (visitors who aren&apos;t logged in) can also see your profile.
+        </p>
       </div>
 
       <div>

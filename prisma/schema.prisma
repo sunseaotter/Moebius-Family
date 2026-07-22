@@ -47,6 +47,9 @@ model User {
   contactEmailPublic Boolean @default(false)
   fbId               String?
 
+  // If true, this profile is visible to visitors who aren't logged in.
+  profilePublic Boolean @default(false)
+
   // Fixed 3 slots, always stored as a 3-element array.
   personalWebsite String[] @default([])
 
