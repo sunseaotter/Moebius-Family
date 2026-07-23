@@ -9,7 +9,7 @@ export default async function LoginPage({
   const params = await searchParams;
 
   return (
-    <div className="mx-auto max-w-sm px-6 py-16">
+    <div className="mx-auto max-w-sm px-4 py-16 sm:px-6">
       <h1 className="font-display text-2xl text-wood-800 mb-6">Log in</h1>
 
       {params.registered && (

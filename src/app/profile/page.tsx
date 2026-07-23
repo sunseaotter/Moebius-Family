@@ -35,7 +35,7 @@ export default async function ProfilePage() {
   if (!me) redirect("/login");
 
   return (
-    <div className="mx-auto max-w-lg px-6 py-16">
+    <div className="mx-auto max-w-lg px-4 py-10 sm:px-6 sm:py-16">
       <h1 className="font-display text-2xl text-wood-800 mb-1">My Profile</h1>
       <p className="text-sm text-wood-600 mb-8">{me.email}</p>
       {session.user.role === "ADMIN" ? (

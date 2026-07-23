@@ -18,13 +18,17 @@ export default async function MembersPage({
     : { status: "APPROVED", profilePublic: true };
 
   // Prisma's scalar array filters (has/hasSome/...) only do exact-value matching,
-  // so a substring match against GD entries needs a raw query.
-  const gdMatchIds = query
+  // so a substring match against array fields needs a raw query.
+  const arrayMatchIds = query
     ? (
         await prisma.$queryRaw<{ id: string }[]>`
           SELECT id FROM "User"
           WHERE status = 'APPROVED'
-            AND EXISTS (SELECT 1 FROM unnest(gd) AS g WHERE g ILIKE ${`%${query}%`})
+            AND (
+              EXISTS (SELECT 1 FROM unnest(gd) AS v WHERE v ILIKE ${`%${query}%`})
+              OR EXISTS (SELECT 1 FROM unnest("workPortfolio") AS v WHERE v ILIKE ${`%${query}%`})
+              OR EXISTS (SELECT 1 FROM unnest("personalWebsite") AS v WHERE v ILIKE ${`%${query}%`})
+            )
         `
       ).map((r) => r.id)
     : [];
@@ -39,10 +43,13 @@ export default async function MembersPage({
           ? {
               OR: [
                 { name: { contains: query, mode: "insensitive" } },
+                { alsoKnownAs: { contains: query, mode: "insensitive" } },
                 { nationality: { contains: query, mode: "insensitive" } },
                 { tttGroupName: { contains: query, mode: "insensitive" } },
                 { lifePurpose: { contains: query, mode: "insensitive" } },
-                ...(gdMatchIds.length > 0 ? [{ id: { in: gdMatchIds } }] : []),
+                { aboutYourself: { contains: query, mode: "insensitive" } },
+                { fbId: { contains: query, mode: "insensitive" } },
+                ...(arrayMatchIds.length > 0 ? [{ id: { in: arrayMatchIds } }] : []),
               ],
             }
           : {}),
@@ -73,7 +80,7 @@ export default async function MembersPage({
   ]);
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
       <h1 className="font-display text-2xl text-wood-800 mb-6">Members</h1>
 
       <form className="mb-8 space-y-3">
@@ -81,10 +88,10 @@ export default async function MembersPage({
           type="text"
           name="q"
           defaultValue={query}
-          placeholder="Search by name, nationality, TTT group, GD, or life purpose…"
+          placeholder="Search by name, nationality, TTT group, GD, about you, or anything in their profile…"
           className="w-full rounded-full border border-wood-200 bg-white px-5 py-3 text-wood-900 focus:border-sage-500 focus:outline-none"
         />
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <select
             name="nationality"
             defaultValue={nationality ?? ""}

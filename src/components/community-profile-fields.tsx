@@ -186,7 +186,7 @@ export function CommunityProfileFields({
         <p className="mb-2 text-xs text-wood-500">
           {GD_SLOTS} spaces available — please fill in at least {MIN_GD_ENTRIES}.
         </p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {Array.from({ length: GD_SLOTS }).map((_, i) => (
             <input
               key={i}
@@ -205,7 +205,7 @@ export function CommunityProfileFields({
           {WORK_PORTFOLIO_SLOTS} spaces available — please fill in at least{" "}
           {MIN_WORK_PORTFOLIO_ENTRIES}.
         </p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {Array.from({ length: WORK_PORTFOLIO_SLOTS }).map((_, i) => (
             <input
               key={i}

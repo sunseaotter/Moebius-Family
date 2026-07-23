@@ -49,11 +49,11 @@ export default async function MemberProfilePage({
   const showEmail = member.contactEmailPublic || isAdmin;
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-16">
-      <div className="flex items-center gap-5">
-        <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size={80} />
+    <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
+      <div className="flex items-center gap-4 sm:gap-5">
+        <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size={64} />
         <div>
-          <h1 className="font-display text-3xl text-wood-800">{member.name}</h1>
+          <h1 className="font-display text-2xl text-wood-800 sm:text-3xl">{member.name}</h1>
           {member.alsoKnownAs && (
             <p className="text-sm text-wood-500">Also known as {member.alsoKnownAs}</p>
           )}
@@ -85,7 +85,7 @@ export default async function MemberProfilePage({
       {gd.length > 0 && (
         <section className="mt-8">
           <h2 className="font-display text-lg text-wood-800 mb-2">GD</h2>
-          <ul className="grid grid-cols-2 gap-2 text-sm text-wood-700">
+          <ul className="grid grid-cols-1 gap-2 text-sm text-wood-700 sm:grid-cols-2">
             {gd.map((g, i) => (
               <li key={i} className="rounded-lg bg-wood-100 px-3 py-2">
                 {g}
@@ -98,7 +98,7 @@ export default async function MemberProfilePage({
       {workPortfolio.length > 0 && (
         <section className="mt-8">
           <h2 className="font-display text-lg text-wood-800 mb-2">Meaningful Work Portfolio</h2>
-          <ul className="grid grid-cols-2 gap-2 text-sm text-wood-700">
+          <ul className="grid grid-cols-1 gap-2 text-sm text-wood-700 sm:grid-cols-2">
             {workPortfolio.map((w, i) => (
               <li key={i} className="rounded-lg bg-wood-100 px-3 py-2">
                 {w}
