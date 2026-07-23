@@ -88,7 +88,7 @@ export default async function MembersPage({
           type="text"
           name="q"
           defaultValue={query}
-          placeholder="Search by name, nationality, TTT group, GD, about you, or anything in their profile…"
+          placeholder="Search by name, location, TTT group, GD, about you, or anything in their profile…"
           className="w-full rounded-full border border-wood-200 bg-white px-5 py-3 text-wood-900 focus:border-sage-500 focus:outline-none"
         />
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -97,7 +97,7 @@ export default async function MembersPage({
             defaultValue={nationality ?? ""}
             className="flex-1 rounded-full border border-wood-200 bg-white px-4 py-2 text-sm text-wood-900 focus:border-sage-500 focus:outline-none"
           >
-            <option value="">Filter by nationality…</option>
+            <option value="">Filter by location…</option>
             {nationalityOptions.map((n) => (
               <option key={n.nationality} value={n.nationality}>
                 {n.nationality}

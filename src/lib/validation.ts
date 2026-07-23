@@ -8,14 +8,14 @@ import {
   countFilled,
 } from "@/lib/slots";
 
-export const NATIONALITIES = ["China", "Hong Kong", "Japan", "Taiwan"] as const;
+export const NATIONALITIES = ["China", "Hong Kong", "Japan", "South Korea", "Taiwan"] as const;
 export const NATIONALITY_OPTIONS = [...NATIONALITIES, "Others"] as const;
 
 const profileFieldsSchema = z.object({
   name: z.string().trim().min(1, "Please enter your name"),
   alsoKnownAs: z.string().trim().optional().or(z.literal("")),
   nationality: z.enum(NATIONALITY_OPTIONS, {
-    message: "Please select your nationality",
+    message: "Please select your location",
   }),
   nationalityOther: z.string().trim().optional().or(z.literal("")),
   tttStartYear: z.coerce.number().int().min(1900).max(2100),
@@ -58,7 +58,7 @@ function checkProfileFields(
   if (data.nationality === "Others" && !data.nationalityOther?.trim()) {
     ctx.addIssue({
       code: "custom",
-      message: "Please specify your nationality",
+      message: "Please specify your location",
       path: ["nationalityOther"],
     });
   }
@@ -89,7 +89,7 @@ export const profileUpdateSchema = profileFieldsSchema.superRefine((data, ctx) =
   if (data.nationality === "Others" && !data.nationalityOther?.trim()) {
     ctx.addIssue({
       code: "custom",
-      message: "Please specify your nationality",
+      message: "Please specify your location",
       path: ["nationalityOther"],
     });
   }

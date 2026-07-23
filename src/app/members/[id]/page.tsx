@@ -50,103 +50,111 @@ export default async function MemberProfilePage({
   const showEmail = member.contactEmailPublic || isAdmin;
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
-      <div className="flex items-center gap-4 sm:gap-5">
-        <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size={64} />
-        <div>
-          <h1 className="font-display text-2xl text-wood-800 sm:text-3xl">{member.name}</h1>
-          {member.alsoKnownAs && (
-            <p className="text-sm text-wood-500">Also known as {member.alsoKnownAs}</p>
-          )}
-          {!isAdmin && (
-            <>
-              <p className="mt-1 text-sage-700">
-                {member.nationality} · {member.tttGroupName}
-              </p>
-              <p className="text-sm text-wood-500">
-                TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
-              </p>
-            </>
-          )}
+    <div className="profile-watercolor-bg">
+      <div className="mx-auto max-w-2xl px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-40">
+        <div className="flex items-center gap-4 sm:gap-5">
+          <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size={77} />
+          <div>
+            <h1 className="font-display text-3xl text-wood-900 sm:text-4xl">{member.name}</h1>
+            {member.alsoKnownAs && (
+              <p className="text-base text-wood-600">Also known as {member.alsoKnownAs}</p>
+            )}
+            {!isAdmin && (
+              <>
+                <p className="mt-1 text-lg text-sage-700">
+                  {member.nationality} · {member.tttGroupName}
+                </p>
+                <p className="text-base text-wood-600">
+                  TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
+                </p>
+              </>
+            )}
+          </div>
         </div>
-      </div>
 
-      <section className="mt-8">
-        <h2 className="font-display text-lg text-wood-800 mb-2">Life Purpose</h2>
-        <p className="text-wood-700 whitespace-pre-wrap">{member.lifePurpose}</p>
-      </section>
-
-      {member.aboutYourself && (
-        <section className="mt-8">
-          <h2 className="font-display text-lg text-wood-800 mb-2">About</h2>
-          <p className="text-wood-700 whitespace-pre-wrap">{member.aboutYourself}</p>
+        <section className="mt-10">
+          <h2 className="font-display text-xl text-wood-800 mb-3">Life Purpose</h2>
+          <p className="text-lg text-wood-800 whitespace-pre-wrap">{member.lifePurpose}</p>
         </section>
-      )}
 
-      {gd.length > 0 && (
-        <section className="mt-8">
-          <h2 className="font-display text-lg text-wood-800 mb-2">GD</h2>
-          <ul className="grid grid-cols-1 gap-2 text-sm text-wood-700 sm:grid-cols-2">
-            {gd.map((g, i) => (
-              <li key={i} className="rounded-lg bg-wood-100 px-3 py-2">
-                {g}
+        {member.aboutYourself && (
+          <section className="mt-10">
+            <h2 className="font-display text-xl text-wood-800 mb-3">About</h2>
+            <p className="text-lg text-wood-800 whitespace-pre-wrap">{member.aboutYourself}</p>
+          </section>
+        )}
+
+        {gd.length > 0 && (
+          <section className="mt-10">
+            <h2 className="font-display text-xl text-wood-800 mb-3">GD</h2>
+            <div className="flex flex-wrap gap-2.5">
+              {gd.map((g, i) => (
+                <span
+                  key={i}
+                  className="rounded-full border border-wood-300 bg-wood-50/60 px-4 py-2 text-base text-wood-800"
+                >
+                  {g}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {workPortfolio.length > 0 && (
+          <section className="mt-10">
+            <h2 className="font-display text-xl text-wood-800 mb-4 text-center sm:text-left">
+              Meaningful Work Portfolio
+            </h2>
+            <WorkPortfolioMindMap name={member.name} items={workPortfolio} />
+          </section>
+        )}
+
+        <section className="mt-10">
+          <h2 className="font-display text-xl text-wood-800 mb-3">Connect</h2>
+          <ul className="space-y-1.5 text-base">
+            {showEmail && (
+              <li>
+                <span className="text-wood-600">Email: </span>
+                <a
+                  href={`mailto:${member.contactEmail}`}
+                  className="text-sage-700 hover:underline"
+                >
+                  {member.contactEmail}
+                </a>
+              </li>
+            )}
+            {member.fbId && (
+              <li>
+                <span className="text-wood-600">FB Page: </span>
+                <a
+                  href={toAbsoluteUrl(member.fbId)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-700 hover:underline"
+                >
+                  {member.fbId}
+                </a>
+              </li>
+            )}
+            {personalWebsites.map((url, i) => (
+              <li key={i}>
+                <span className="text-wood-600">Website: </span>
+                <a
+                  href={toAbsoluteUrl(url)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-700 hover:underline"
+                >
+                  {url}
+                </a>
               </li>
             ))}
+            {!showEmail && !member.fbId && personalWebsites.length === 0 && (
+              <li className="text-wood-600">This member hasn&apos;t shared any contact details.</li>
+            )}
           </ul>
         </section>
-      )}
-
-      {workPortfolio.length > 0 && (
-        <section className="mt-8">
-          <h2 className="font-display text-lg text-wood-800 mb-4 text-center sm:text-left">
-            Meaningful Work Portfolio
-          </h2>
-          <WorkPortfolioMindMap name={member.name} items={workPortfolio} />
-        </section>
-      )}
-
-      <section className="mt-8">
-        <h2 className="font-display text-lg text-wood-800 mb-2">Connect</h2>
-        <ul className="space-y-1 text-sm">
-          {showEmail && (
-            <li>
-              <span className="text-wood-500">Email: </span>
-              <a href={`mailto:${member.contactEmail}`} className="text-sage-700 hover:underline">
-                {member.contactEmail}
-              </a>
-            </li>
-          )}
-          {member.fbId && (
-            <li>
-              <span className="text-wood-500">FB Page: </span>
-              <a
-                href={toAbsoluteUrl(member.fbId)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sage-700 hover:underline"
-              >
-                {member.fbId}
-              </a>
-            </li>
-          )}
-          {personalWebsites.map((url, i) => (
-            <li key={i}>
-              <span className="text-wood-500">Website: </span>
-              <a
-                href={toAbsoluteUrl(url)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sage-700 hover:underline"
-              >
-                {url}
-              </a>
-            </li>
-          ))}
-          {!showEmail && !member.fbId && personalWebsites.length === 0 && (
-            <li className="text-wood-500">This member hasn&apos;t shared any contact details.</li>
-          )}
-        </ul>
-      </section>
+      </div>
     </div>
   );
 }

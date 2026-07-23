@@ -92,7 +92,7 @@ export function CommunityProfileFields({
 
       <div>
         <label className={labelClass} htmlFor="nationality">
-          Nationality
+          Location
         </label>
         <select
           id="nationality"
@@ -103,7 +103,7 @@ export function CommunityProfileFields({
           className={inputClass}
         >
           <option value="" disabled>
-            Select nationality…
+            Select location…
           </option>
           {NATIONALITY_OPTIONS.map((n) => (
             <option key={n} value={n}>
@@ -114,7 +114,7 @@ export function CommunityProfileFields({
         {nationality === "Others" && (
           <input
             name="nationalityOther"
-            placeholder="Please specify your nationality"
+            placeholder="Please specify your location"
             defaultValue={isKnownNationality ? "" : defaults?.nationality ?? ""}
             className={`${inputClass} mt-2`}
           />
