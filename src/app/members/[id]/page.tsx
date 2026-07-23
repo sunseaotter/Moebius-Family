@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Avatar } from "@/components/avatar";
+import { WorkPortfolioMindMap } from "@/components/work-portfolio-mindmap";
 
 function toAbsoluteUrl(url: string): string {
   return /^https?:\/\//i.test(url) ? url : `https://${url}`;
@@ -97,14 +98,10 @@ export default async function MemberProfilePage({
 
       {workPortfolio.length > 0 && (
         <section className="mt-8">
-          <h2 className="font-display text-lg text-wood-800 mb-2">Meaningful Work Portfolio</h2>
-          <ul className="grid grid-cols-1 gap-2 text-sm text-wood-700 sm:grid-cols-2">
-            {workPortfolio.map((w, i) => (
-              <li key={i} className="rounded-lg bg-wood-100 px-3 py-2">
-                {w}
-              </li>
-            ))}
-          </ul>
+          <h2 className="font-display text-lg text-wood-800 mb-4 text-center sm:text-left">
+            Meaningful Work Portfolio
+          </h2>
+          <WorkPortfolioMindMap name={member.name} items={workPortfolio} />
         </section>
       )}
 

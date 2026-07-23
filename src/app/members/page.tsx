@@ -54,7 +54,7 @@ export default async function MembersPage({
             }
           : {}),
       },
-      orderBy: { name: "asc" },
+      orderBy: [{ role: "desc" }, { name: "asc" }],
       select: {
         id: true,
         name: true,
