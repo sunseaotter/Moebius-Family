@@ -62,7 +62,10 @@ body {
   color: var(--foreground);
 }
 
+/* Full-bleed watercolor photo behind the page content. Sized down from the
+   4K source so it stays crisp without shipping the full 6144px original. */
 .profile-watercolor-bg {
+  position: relative;
   background-color: var(--color-wood-50);
   background-image: url("/profile-bg-wide.jpg");
   background-size: cover;
@@ -83,5 +86,38 @@ body {
     background-attachment: scroll;
     background-image: url("/profile-bg-tall.jpg");
     background-position: top center;
+  }
+}
+
+/* Corner artwork is pinned to the viewport itself (not the background
+   photo) so it always stays fully visible regardless of window shape —
+   the photo above may crop it out at unusual aspect ratios, but these
+   never do. */
+.profile-corner-leaf,
+.profile-corner-log {
+  position: fixed;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.profile-corner-leaf {
+  top: 0;
+  left: 0;
+  width: 190px;
+}
+
+.profile-corner-log {
+  bottom: 0;
+  right: 0;
+  width: 220px;
+}
+
+@media (max-width: 640px) {
+  .profile-corner-leaf {
+    width: 130px;
+  }
+  .profile-corner-log {
+    width: 150px;
   }
 }

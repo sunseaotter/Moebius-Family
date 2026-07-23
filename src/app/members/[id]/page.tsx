@@ -28,7 +28,6 @@ export default async function MemberProfilePage({
       nationality: true,
       tttGroupName: true,
       tttStartYear: true,
-      tttStartMonth: true,
       lifePurpose: true,
       aboutYourself: true,
       gd: true,
@@ -51,6 +50,10 @@ export default async function MemberProfilePage({
 
   return (
     <div className="profile-watercolor-bg">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/corner-leaf-tl.png" alt="" className="profile-corner-leaf" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/corner-log-br.png" alt="" className="profile-corner-log" />
       <div className="mx-auto max-w-2xl px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-40">
         <div className="flex items-center gap-4 sm:gap-5">
           <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size={77} />
@@ -64,9 +67,7 @@ export default async function MemberProfilePage({
                 <p className="mt-1 text-lg text-sage-700">
                   {member.nationality} · {member.tttGroupName}
                 </p>
-                <p className="text-base text-wood-600">
-                  TTT since {member.tttStartYear}/{String(member.tttStartMonth).padStart(2, "0")}
-                </p>
+                <p className="text-base text-wood-600">TTT since {member.tttStartYear}</p>
               </>
             )}
           </div>

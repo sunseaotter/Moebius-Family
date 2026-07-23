@@ -12,6 +12,7 @@ import {
   normalizePersonalWebsite,
 } from "@/lib/slots";
 import { NATIONALITIES, NATIONALITY_OPTIONS } from "@/lib/validation";
+import { TTT_GROUPS, yearForTttGroup } from "@/lib/ttt-groups";
 import { PhotoUploadField } from "@/components/photo-upload-field";
 
 export type ProfileFieldDefaults = {
@@ -19,7 +20,6 @@ export type ProfileFieldDefaults = {
   alsoKnownAs?: string | null;
   nationality?: string;
   tttStartYear?: number;
-  tttStartMonth?: number;
   tttGroupName?: string;
   lifePurpose?: string;
   gd?: string[];
@@ -58,6 +58,18 @@ export function CommunityProfileFields({
   const [nationality, setNationality] = useState(
     !defaults?.nationality ? "" : isKnownNationality ? defaults.nationality : "Others"
   );
+
+  const isKnownTttGroup = TTT_GROUPS.some((g) => g.name === defaults?.tttGroupName);
+  const [tttGroupName, setTttGroupName] = useState(
+    isKnownTttGroup ? defaults!.tttGroupName! : ""
+  );
+  const [tttStartYear, setTttStartYear] = useState<number | "">(defaults?.tttStartYear ?? "");
+
+  function handleTttGroupChange(name: string) {
+    setTttGroupName(name);
+    const year = yearForTttGroup(name);
+    if (year !== undefined) setTttStartYear(year);
+  }
 
   return (
     <div className="space-y-6">
@@ -123,48 +135,41 @@ export function CommunityProfileFields({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
+          <label className={labelClass} htmlFor="tttGroupName">
+            Your TTT Group Name
+          </label>
+          <select
+            id="tttGroupName"
+            name="tttGroupName"
+            required
+            value={tttGroupName}
+            onChange={(e) => handleTttGroupChange(e.target.value)}
+            className={inputClass}
+          >
+            <option value="" disabled>
+              Select your TTT group…
+            </option>
+            {TTT_GROUPS.map((g) => (
+              <option key={g.name} value={g.name}>
+                {g.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
           <label className={labelClass} htmlFor="tttStartYear">
-            TTT Starting Year
+            Year of TTT
           </label>
           <input
             id="tttStartYear"
             name="tttStartYear"
             type="number"
-            min={1900}
-            max={2100}
             required
-            defaultValue={defaults?.tttStartYear}
-            className={inputClass}
+            readOnly
+            value={tttStartYear}
+            className={`${inputClass} bg-wood-100 text-wood-600`}
           />
         </div>
-        <div>
-          <label className={labelClass} htmlFor="tttStartMonth">
-            TTT Starting Month
-          </label>
-          <input
-            id="tttStartMonth"
-            name="tttStartMonth"
-            type="number"
-            min={1}
-            max={12}
-            required
-            defaultValue={defaults?.tttStartMonth}
-            className={inputClass}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className={labelClass} htmlFor="tttGroupName">
-          TTT Group Name
-        </label>
-        <input
-          id="tttGroupName"
-          name="tttGroupName"
-          required
-          defaultValue={defaults?.tttGroupName}
-          className={inputClass}
-        />
       </div>
 
       <div>

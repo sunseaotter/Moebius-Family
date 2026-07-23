@@ -28,7 +28,6 @@ async function main() {
       status: "APPROVED",
       nationality: "—",
       tttStartYear: new Date().getFullYear(),
-      tttStartMonth: 1,
       tttGroupName: "—",
       lifePurpose: "Administering The Global Moebius Family.",
       gd: [],

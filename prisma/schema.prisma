@@ -33,7 +33,6 @@ model User {
 
   nationality   String
   tttStartYear  Int
-  tttStartMonth Int
   tttGroupName  String
   lifePurpose   String @db.Text
   aboutYourself String? @db.Text

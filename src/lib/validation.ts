@@ -7,7 +7,6 @@ import {
   MIN_WORK_PORTFOLIO_ENTRIES,
   countFilled,
 } from "@/lib/slots";
-
 export const NATIONALITIES = ["China", "Hong Kong", "Japan", "South Korea", "Taiwan"] as const;
 export const NATIONALITY_OPTIONS = [...NATIONALITIES, "Others"] as const;
 
@@ -19,8 +18,7 @@ const profileFieldsSchema = z.object({
   }),
   nationalityOther: z.string().trim().optional().or(z.literal("")),
   tttStartYear: z.coerce.number().int().min(1900).max(2100),
-  tttStartMonth: z.coerce.number().int().min(1).max(12),
-  tttGroupName: z.string().trim().min(1, "Please enter your TTT group name"),
+  tttGroupName: z.string().trim().min(1, "Please select your TTT group"),
   lifePurpose: z.string().trim().min(1, "Please enter your Life Purpose"),
   gd: z.array(z.string()).max(GD_SLOTS).default([]),
   workPortfolio: z.array(z.string()).max(WORK_PORTFOLIO_SLOTS).default([]),
