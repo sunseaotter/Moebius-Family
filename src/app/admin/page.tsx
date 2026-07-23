@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { approveUserAction, rejectUserAction } from "@/lib/actions/admin";
+import { DeleteMemberButton } from "@/components/delete-member-button";
 
 export default async function AdminPage() {
   const session = await auth();
@@ -11,11 +12,13 @@ export default async function AdminPage() {
     prisma.user.findMany({
       where: { status: "PENDING" },
       orderBy: { createdAt: "asc" },
+      select: { id: true, name: true, email: true, nationality: true, tttGroupName: true },
     }),
     prisma.user.findMany({
       where: { status: { not: "PENDING" } },
       orderBy: { createdAt: "desc" },
       take: 50,
+      select: { id: true, name: true, email: true, status: true, role: true },
     }),
   ]);
 
@@ -77,12 +80,13 @@ export default async function AdminPage() {
               <span>
                 {u.name} <span className="text-wood-400">({u.email})</span>
               </span>
-              <span
-                className={
-                  u.status === "APPROVED" ? "text-sage-700" : "text-red-600"
-                }
-              >
-                {u.status}
+              <span className="flex items-center gap-3">
+                <span className={u.status === "APPROVED" ? "text-sage-700" : "text-red-600"}>
+                  {u.status}
+                </span>
+                {u.status === "APPROVED" && u.role !== "ADMIN" && (
+                  <DeleteMemberButton userId={u.id} name={u.name} />
+                )}
               </span>
             </li>
           ))}

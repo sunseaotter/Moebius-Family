@@ -14,6 +14,7 @@ async function requireAdmin() {
   if (session?.user.role !== "ADMIN") {
     throw new Error("Forbidden");
   }
+  return session;
 }
 
 export async function approveUserAction(userId: string) {
@@ -46,4 +47,21 @@ export async function rejectUserAction(userId: string) {
   );
 
   revalidatePath("/admin");
+}
+
+export async function deleteApprovedUserAction(userId: string) {
+  const session = await requireAdmin();
+
+  const target = await prisma.user.findUnique({ where: { id: userId } });
+  if (!target || target.status !== "APPROVED" || target.role === "ADMIN") {
+    return;
+  }
+  if (target.id === session?.user.id) {
+    return;
+  }
+
+  await prisma.user.delete({ where: { id: userId } });
+
+  revalidatePath("/admin");
+  revalidatePath("/members");
 }

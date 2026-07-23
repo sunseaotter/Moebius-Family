@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ProfileForm } from "./profile-form";
 import { AdminProfileForm } from "./admin-profile-form";
 import { ChangePasswordForm } from "@/components/change-password-form";
+import { DeleteAccountForm } from "@/components/delete-account-form";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -64,6 +65,7 @@ export default async function ProfilePage() {
         />
       )}
       <ChangePasswordForm />
+      {session.user.role !== "ADMIN" && <DeleteAccountForm />}
     </div>
   );
 }

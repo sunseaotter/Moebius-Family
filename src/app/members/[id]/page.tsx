@@ -60,7 +60,7 @@ export default async function MemberProfilePage({
           <div>
             <h1 className="font-display text-3xl text-wood-900 sm:text-4xl">{member.name}</h1>
             {member.alsoKnownAs && (
-              <p className="text-base text-wood-600">Also known as {member.alsoKnownAs}</p>
+              <p className="text-base text-wood-600">{member.alsoKnownAs}</p>
             )}
             {!isAdmin && (
               <>
@@ -74,20 +74,20 @@ export default async function MemberProfilePage({
         </div>
 
         <section className="mt-10">
-          <h2 className="font-display text-xl text-wood-800 mb-3">Life Purpose</h2>
+          <h2 className="font-display text-xl font-bold text-wood-500 mb-3">Life Purpose</h2>
           <p className="text-lg text-wood-800 whitespace-pre-wrap">{member.lifePurpose}</p>
         </section>
 
         {member.aboutYourself && (
           <section className="mt-10">
-            <h2 className="font-display text-xl text-wood-800 mb-3">About</h2>
+            <h2 className="font-display text-xl font-bold text-wood-500 mb-3">About</h2>
             <p className="text-lg text-wood-800 whitespace-pre-wrap">{member.aboutYourself}</p>
           </section>
         )}
 
         {gd.length > 0 && (
           <section className="mt-10">
-            <h2 className="font-display text-xl text-wood-800 mb-3">GD</h2>
+            <h2 className="font-display text-xl font-bold text-wood-500 mb-3">GD</h2>
             <div className="flex flex-wrap gap-2.5">
               {gd.map((g, i) => (
                 <span
@@ -103,7 +103,7 @@ export default async function MemberProfilePage({
 
         {workPortfolio.length > 0 && (
           <section className="mt-10">
-            <h2 className="font-display text-xl text-wood-800 mb-4 text-center sm:text-left">
+            <h2 className="font-display text-xl font-bold text-wood-500 mb-4 text-center sm:text-left">
               Meaningful Work Portfolio
             </h2>
             <WorkPortfolioMindMap name={member.name} items={workPortfolio} />
@@ -111,7 +111,7 @@ export default async function MemberProfilePage({
         )}
 
         <section className="mt-10">
-          <h2 className="font-display text-xl text-wood-800 mb-3">Connect</h2>
+          <h2 className="font-display text-xl font-bold text-wood-500 mb-3">Connect</h2>
           <ul className="space-y-1.5 text-base">
             {showEmail && (
               <li>
