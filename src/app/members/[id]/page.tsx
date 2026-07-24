@@ -122,7 +122,7 @@ export default async function MemberProfilePage({
             )}
             {member.fbId && (
               <li>
-                <span className="text-wood-600">FB Page: </span>
+                <span className="text-wood-600">Social media: </span>
                 <a
                   href={toAbsoluteUrl(member.fbId)}
                   target="_blank"
