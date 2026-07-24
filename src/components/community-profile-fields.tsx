@@ -263,7 +263,7 @@ export function CommunityProfileFields({
 
       <div>
         <label className={labelClass} htmlFor="fbId">
-          FB Page (optional)
+          Social media (Optional)
         </label>
         <input id="fbId" name="fbId" defaultValue={defaults?.fbId ?? ""} className={inputClass} />
       </div>
