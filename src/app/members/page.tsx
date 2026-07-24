@@ -80,16 +80,7 @@ export default async function MembersPage({
   ]);
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-b from-wood-100 via-wood-50 to-wood-50">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-sage-200/60 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-16 top-64 h-64 w-64 rounded-full bg-wood-300/40 blur-3xl sm:top-80"
-      />
-
+    <div className="members-watercolor-bg relative overflow-hidden">
       <div className="relative mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
         <h1 className="font-display text-2xl text-wood-800 mb-6">Members</h1>
 

@@ -135,3 +135,17 @@ body {
     background-image: url("/home-bg-tall.jpg");
   }
 }
+
+.members-watercolor-bg {
+  background-color: var(--color-wood-50);
+  background-image: url("/members-bg-wide.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 640px), (orientation: portrait) {
+  .members-watercolor-bg {
+    background-image: url("/members-bg-tall.jpg");
+  }
+}
