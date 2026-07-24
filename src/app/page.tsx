@@ -2,16 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-b from-wood-100 via-wood-50 to-wood-50">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-sage-200/60 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-16 top-64 h-64 w-64 rounded-full bg-wood-300/40 blur-3xl sm:top-80"
-      />
-
+    <div className="home-watercolor-bg relative overflow-hidden">
       <section className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 sm:py-24">
         <p className="mb-4 text-sm uppercase tracking-[0.2em] text-sage-700">
           The Global Moebius Family

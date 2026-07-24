@@ -121,3 +121,17 @@ body {
     width: 150px;
   }
 }
+
+.home-watercolor-bg {
+  background-color: var(--color-wood-50);
+  background-image: url("/home-bg-wide.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 640px), (orientation: portrait) {
+  .home-watercolor-bg {
+    background-image: url("/home-bg-tall.jpg");
+  }
+}
