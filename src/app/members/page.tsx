@@ -81,7 +81,7 @@ export default async function MembersPage({
   ]);
 
   return (
-    <div className="members-watercolor-bg relative overflow-hidden">
+    <div className="members-watercolor-bg relative flex-1 overflow-hidden">
       <div className="relative mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
         <h1 className="font-display text-2xl text-wood-800 mb-6">Members</h1>
 
