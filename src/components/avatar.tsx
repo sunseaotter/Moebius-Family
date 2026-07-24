@@ -7,16 +7,19 @@ export function Avatar({
   userId: string;
   name: string;
   hasPhoto: boolean;
-  size?: number;
+  /** A pixel size, or "fill" to stretch to the parent's height and stay circular via aspect-ratio. */
+  size?: number | "fill";
 }) {
+  const fill = size === "fill";
+
   if (!hasPhoto) {
     const initial = name.trim().charAt(0).toUpperCase() || "?";
     return (
       <div
-        className="flex shrink-0 items-center justify-center rounded-full bg-sage-200 font-display text-sage-800"
-        style={{ width: size, height: size, fontSize: size * 0.4 }}
+        className={`flex shrink-0 items-center justify-center rounded-full bg-sage-200 font-display text-sage-800 ${fill ? "aspect-square" : ""}`}
+        style={fill ? undefined : { width: size, height: size, fontSize: (size as number) * 0.4 }}
       >
-        {initial}
+        <span className={fill ? "text-4xl" : undefined}>{initial}</span>
       </div>
     );
   }
@@ -26,8 +29,8 @@ export function Avatar({
     <img
       src={`/api/members/${userId}/photo`}
       alt={name}
-      className="shrink-0 rounded-full border border-wood-200 object-cover"
-      style={{ width: size, height: size }}
+      className={`shrink-0 rounded-full border border-wood-200 object-cover ${fill ? "aspect-square" : ""}`}
+      style={fill ? undefined : { width: size, height: size }}
     />
   );
 }

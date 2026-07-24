@@ -18,24 +18,24 @@ export function WorkPortfolioMindMap({
 
   const dense = items.length > 6;
   const leafSizeClass = dense
-    ? "w-[84px] h-[53px] sm:w-[106px] sm:h-[66px]"
-    : "w-[106px] h-[66px] sm:w-[127px] sm:h-[80px]";
+    ? "w-[101px] h-[64px] sm:w-[127px] sm:h-[79px]"
+    : "w-[127px] h-[79px] sm:w-[152px] sm:h-[96px]";
 
   // Longer labels get a smaller font so more of the text fits inside the
   // fixed-size leaf shape instead of being clipped by the line clamp.
   function leafTextClassFor(text: string): string {
     const tiers = dense
       ? [
-          { max: 12, cls: "text-[12px] sm:text-[13px]" },
-          { max: 20, cls: "text-[11px] sm:text-[12px]" },
-          { max: 30, cls: "text-[10px] sm:text-[11px]" },
-          { max: Infinity, cls: "text-[9px] sm:text-[10px]" },
+          { max: 12, cls: "text-[14px] sm:text-[16px]" },
+          { max: 20, cls: "text-[13px] sm:text-[14px]" },
+          { max: 30, cls: "text-[12px] sm:text-[13px]" },
+          { max: Infinity, cls: "text-[11px] sm:text-[12px]" },
         ]
       : [
-          { max: 12, cls: "text-[14px] sm:text-[16px]" },
-          { max: 20, cls: "text-[12px] sm:text-[14px]" },
-          { max: 30, cls: "text-[11px] sm:text-[12px]" },
-          { max: Infinity, cls: "text-[10px] sm:text-[11px]" },
+          { max: 12, cls: "text-[17px] sm:text-[19px]" },
+          { max: 20, cls: "text-[14px] sm:text-[17px]" },
+          { max: 30, cls: "text-[13px] sm:text-[14px]" },
+          { max: Infinity, cls: "text-[12px] sm:text-[13px]" },
         ];
     return tiers.find((t) => text.length <= t.max)!.cls;
   }
@@ -64,7 +64,7 @@ export function WorkPortfolioMindMap({
           const perpX = -dirY;
           const perpY = dirX;
           const startR = 13;
-          const endR = dense ? 10 : 12;
+          const endR = dense ? 12 : 14;
           const startX = 50 + dirX * startR;
           const startY = 50 + dirY * startR;
           const endX = p.x - dirX * endR;
