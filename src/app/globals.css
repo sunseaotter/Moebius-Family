@@ -67,6 +67,7 @@ body {
    (a short admin profile vs. a long one with GD + portfolio), so each
    corner is pinned and sized on its own and always shows in full. */
 .profile-watercolor-bg {
+  min-height: 720px;
   background-color: var(--color-wood-50);
   background-repeat: no-repeat;
   background-image: url("/profile-corner-tl.png"), url("/profile-corner-tr.png"),
@@ -81,6 +82,7 @@ body {
 
 @media (max-width: 640px) {
   .profile-watercolor-bg {
+    min-height: 600px;
     background-size:
       150px auto,
       165px auto,
@@ -108,6 +110,7 @@ body {
    height, so each corner is pinned and sized on its own and always
    shows in full regardless of how tall the page ends up being. */
 .members-watercolor-bg {
+  min-height: 720px;
   background-color: var(--color-wood-50);
   background-repeat: no-repeat;
   background-image: url("/members-corner-tl.png"), url("/members-corner-tr.png"),
@@ -122,6 +125,7 @@ body {
 
 @media (max-width: 640px) {
   .members-watercolor-bg {
+    min-height: 600px;
     background-size:
       170px auto,
       180px auto,

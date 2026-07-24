@@ -38,7 +38,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-wood-50 text-wood-900">
         <PendingBanner />
         <SiteHeader />
-        <main className="flex flex-1 flex-col">{children}</main>
+        <main className="flex-1">{children}</main>
         <footer className="border-t border-wood-200 py-8 text-center text-xs text-wood-500">
           The Moebius Family — Creating Our Meaningful Work Together.
         </footer>
