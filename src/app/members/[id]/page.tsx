@@ -51,8 +51,8 @@ export default async function MemberProfilePage({
   return (
     <div className="profile-watercolor-bg">
       <div className="mx-auto max-w-2xl px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-40">
-        <div className="flex items-stretch gap-4 sm:gap-5">
-          <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size="fill" />
+        <div className="flex items-center gap-4 sm:gap-5">
+          <Avatar userId={member.id} name={member.name} hasPhoto={member.hasPhoto} size={92} />
           <div>
             <h1 className="font-display text-3xl text-wood-900 sm:text-4xl">{member.name}</h1>
             {member.alsoKnownAs && (
