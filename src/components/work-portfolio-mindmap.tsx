@@ -20,7 +20,25 @@ export function WorkPortfolioMindMap({
   const leafSizeClass = dense
     ? "w-[84px] h-[53px] sm:w-[106px] sm:h-[66px]"
     : "w-[106px] h-[66px] sm:w-[127px] sm:h-[80px]";
-  const leafTextClass = dense ? "text-[12px] sm:text-[13px]" : "text-[14px] sm:text-[16px]";
+
+  // Longer labels get a smaller font so more of the text fits inside the
+  // fixed-size leaf shape instead of being clipped by the line clamp.
+  function leafTextClassFor(text: string): string {
+    const tiers = dense
+      ? [
+          { max: 12, cls: "text-[12px] sm:text-[13px]" },
+          { max: 20, cls: "text-[11px] sm:text-[12px]" },
+          { max: 30, cls: "text-[10px] sm:text-[11px]" },
+          { max: Infinity, cls: "text-[9px] sm:text-[10px]" },
+        ]
+      : [
+          { max: 12, cls: "text-[14px] sm:text-[16px]" },
+          { max: 20, cls: "text-[12px] sm:text-[14px]" },
+          { max: 30, cls: "text-[11px] sm:text-[12px]" },
+          { max: Infinity, cls: "text-[10px] sm:text-[11px]" },
+        ];
+    return tiers.find((t) => text.length <= t.max)!.cls;
+  }
 
   const angleStep = (2 * Math.PI) / items.length;
   const points = items.map((item, i) => {
@@ -110,7 +128,7 @@ export function WorkPortfolioMindMap({
             />
             <div className="relative flex h-full w-full items-center justify-center px-[16%] text-center">
               <span
-                className={`line-clamp-3 ${leafTextClass} font-display font-bold leading-tight break-words text-wood-900`}
+                className={`line-clamp-4 ${leafTextClassFor(p.item)} font-display font-bold leading-tight break-words text-wood-900`}
               >
                 {p.item}
               </span>
