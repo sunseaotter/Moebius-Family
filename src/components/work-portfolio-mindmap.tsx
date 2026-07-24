@@ -18,9 +18,9 @@ export function WorkPortfolioMindMap({
 
   const dense = items.length > 6;
   const leafSizeClass = dense
-    ? "w-[70px] h-[44px] sm:w-[88px] sm:h-[55px]"
-    : "w-[88px] h-[55px] sm:w-[106px] sm:h-[67px]";
-  const leafTextClass = dense ? "text-[10px] sm:text-[11px]" : "text-[12px] sm:text-[13px]";
+    ? "w-[84px] h-[53px] sm:w-[106px] sm:h-[66px]"
+    : "w-[106px] h-[66px] sm:w-[127px] sm:h-[80px]";
+  const leafTextClass = dense ? "text-[12px] sm:text-[13px]" : "text-[14px] sm:text-[16px]";
 
   const angleStep = (2 * Math.PI) / items.length;
   const points = items.map((item, i) => {
@@ -34,7 +34,7 @@ export function WorkPortfolioMindMap({
   });
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[460px] py-4 sm:max-w-[530px]">
+    <div className="relative mx-auto aspect-square w-full max-w-[552px] py-4 sm:max-w-[636px]">
       <svg
         className="absolute inset-0 h-full w-full overflow-visible"
         viewBox="0 0 100 100"
@@ -77,7 +77,7 @@ export function WorkPortfolioMindMap({
       </svg>
 
       <div
-        className="absolute left-1/2 top-1/2 w-[106px] sm:w-[123px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 w-[127px] sm:w-[148px] -translate-x-1/2 -translate-y-1/2"
         style={{ aspectRatio: CENTER_ASPECT }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -87,7 +87,7 @@ export function WorkPortfolioMindMap({
           className="absolute inset-0 h-full w-full object-fill drop-shadow-md"
         />
         <div className="relative flex h-full w-full items-center justify-center px-[22%] pb-[16%] pt-[26%] text-center">
-          <span className="font-display text-[15px] leading-tight break-words text-wood-900 sm:text-[17px]">
+          <span className="font-display text-[18px] leading-tight break-words text-wood-900 sm:text-[20px]">
             {name}
           </span>
         </div>
