@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Avatar } from "@/components/avatar";
+import { MembersFilterForm } from "@/components/members-filter-form";
 import type { Prisma } from "@/generated/prisma/client";
 
 export default async function MembersPage({
@@ -84,41 +85,13 @@ export default async function MembersPage({
       <div className="relative mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
         <h1 className="font-display text-2xl text-wood-800 mb-6">Members</h1>
 
-        <form className="mb-8 space-y-3">
-          <input
-            type="text"
-            name="q"
-            defaultValue={query}
-            placeholder="Search by name, location, TTT group, GD, about you, or anything in their profile…"
-            className="w-full rounded-full border border-wood-200 bg-white px-5 py-3 text-wood-900 focus:border-sage-500 focus:outline-none"
-          />
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <select
-              name="nationality"
-              defaultValue={nationality ?? ""}
-              className="flex-1 rounded-full border border-wood-200 bg-white px-4 py-2 text-sm text-wood-900 focus:border-sage-500 focus:outline-none"
-            >
-              <option value="">Filter by location…</option>
-              {nationalityOptions.map((n) => (
-                <option key={n.nationality} value={n.nationality}>
-                  {n.nationality}
-                </option>
-              ))}
-            </select>
-            <select
-              name="tttGroup"
-              defaultValue={tttGroup ?? ""}
-              className="flex-1 rounded-full border border-wood-200 bg-white px-4 py-2 text-sm text-wood-900 focus:border-sage-500 focus:outline-none"
-            >
-              <option value="">Filter by TTT group…</option>
-              {tttGroupOptions.map((g) => (
-                <option key={g.tttGroupName} value={g.tttGroupName}>
-                  {g.tttGroupName}
-                </option>
-              ))}
-            </select>
-          </div>
-        </form>
+        <MembersFilterForm
+          query={query}
+          nationality={nationality ?? ""}
+          tttGroup={tttGroup ?? ""}
+          nationalityOptions={nationalityOptions.map((n) => n.nationality)}
+          tttGroupOptions={tttGroupOptions.map((g) => g.tttGroupName)}
+        />
 
         {members.length === 0 ? (
           <p className="text-wood-600">No members found.</p>
