@@ -89,39 +89,6 @@ body {
   }
 }
 
-/* Corner artwork is pinned to the viewport itself (not the background
-   photo) so it always stays fully visible regardless of window shape —
-   the photo above may crop it out at unusual aspect ratios, but these
-   never do. */
-.profile-corner-leaf,
-.profile-corner-log {
-  position: fixed;
-  height: auto;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.profile-corner-leaf {
-  top: 0;
-  left: 0;
-  width: 190px;
-}
-
-.profile-corner-log {
-  bottom: 0;
-  right: 0;
-  width: 220px;
-}
-
-@media (max-width: 640px) {
-  .profile-corner-leaf {
-    width: 130px;
-  }
-  .profile-corner-log {
-    width: 150px;
-  }
-}
-
 .home-watercolor-bg {
   background-color: var(--color-wood-50);
   background-image: url("/home-bg-wide.jpg");
@@ -136,16 +103,29 @@ body {
   }
 }
 
+/* Four independent corner images instead of one cover photo — a cover
+   photo crops unpredictably against this page's short, content-driven
+   height, so each corner is pinned and sized on its own and always
+   shows in full regardless of how tall the page ends up being. */
 .members-watercolor-bg {
-  background-color: var(--color-wood-50);
-  background-image: url("/members-bg-wide.jpg");
-  background-size: cover;
-  background-position: center;
+  background-color: #fff6ea;
   background-repeat: no-repeat;
+  background-image: url("/members-corner-tl.png"), url("/members-corner-tr.png"),
+    url("/members-corner-bl.png"), url("/members-corner-br.png");
+  background-position: top left, top right, bottom left, bottom right;
+  background-size:
+    340px auto,
+    360px auto,
+    340px auto,
+    360px auto;
 }
 
-@media (max-width: 640px), (orientation: portrait) {
+@media (max-width: 640px) {
   .members-watercolor-bg {
-    background-image: url("/members-bg-tall.jpg");
+    background-size:
+      170px auto,
+      180px auto,
+      170px auto,
+      180px auto;
   }
 }
