@@ -47,8 +47,10 @@ export function adminNewRegistrationEmail(name: string, email: string) {
 
 export function userRegistrationApprovedEmail(name: string) {
   return {
-    subject: `[The Global Moebius Family] Your account has been approved`,
-    html: `<p>Hi ${name},</p><p>Your The Global Moebius Family account has been approved by an admin — you can now log in!</p>
+    subject: `[The Global Moebius Family] Welcome — your application has been approved!`,
+    html: `<p>Hi ${name},</p>
+      <p>Great news — your application to join The Global Moebius Family has been approved. Welcome to the family!</p>
+      <p>You can now log in, browse the member directory, and connect with other members.</p>
       <p><a href="${process.env.AUTH_URL}/login">Log in</a></p>`,
   };
 }
