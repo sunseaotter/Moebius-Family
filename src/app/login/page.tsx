@@ -13,10 +13,21 @@ export default async function LoginPage({
       <h1 className="font-display text-2xl text-wood-800 mb-6">Log in</h1>
 
       {params.registered && (
-        <p className="mb-6 rounded-lg bg-sage-100 text-sage-800 text-sm px-4 py-3">
-          Thanks for registering! Your account is pending admin approval — you
-          can log in right away and browse the site in the meantime.
-        </p>
+        <div className="mb-6 space-y-3 rounded-lg bg-sage-100 text-sage-800 text-sm px-4 py-3">
+          <p className="font-semibold">
+            Thank you for applying to join The Global Moebius Family! 🌱
+          </p>
+          <p>
+            We&apos;ve received your application and our admin team will
+            review it within 48 hours. The confirmation email will be sent
+            from globalmoebius@gmail.com if approved — so please keep an eye
+            on your inbox (and maybe your spam folder, just in case!).
+          </p>
+          <p>
+            We appreciate your patience, and we&apos;re excited to welcome
+            you to the family soon.
+          </p>
+        </div>
       )}
       {params.reset && (
         <p className="mb-6 rounded-lg bg-sage-100 text-sage-800 text-sm px-4 py-3">
